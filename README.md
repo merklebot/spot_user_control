@@ -1,0 +1,40 @@
+# Spot User Control
+
+Packages for manipulating with users and recording rosbag backup files for Spot.
+
+## Requirements
+
+* [ROS melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)
+* [Spot SDK](https://github.com/boston-dynamics/spot-sdk/blob/master/docs/python/quickstart.md)
+* Clearpath [Spot ROS package](https://clearpathrobotics.com/assets/guides/melodic/spot-ros/ros_setup.html)
+
+## Installation 
+
+Clone repository to your ROS workspace:
+```bash
+cd ~/catkin_ws/src
+git clone 
+```
+Build the workspace:
+```bash
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+```
+
+## Run
+
+Run `control.launch` file for recording rosbags and run e-stop:
+```bash
+roslaunch lease_control control.launch
+```
+Run `create_user.py` script in `lease_control` package to create new user with e-mail and your ssh public key:
+```bash
+roscd lease_control
+python3 scripts/create_user.py <e-mail> <ssh public key>
+```
+To delete user run `delete_user.py`:
+```bash
+roscd lease_control
+python3 scripts/delete_user.py <username>
+```

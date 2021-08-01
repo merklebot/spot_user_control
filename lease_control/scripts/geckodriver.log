@@ -1,0 +1,325 @@
+1624566070365	geckodriver	INFO	Listening on 127.0.0.1:46847
+1624566071366	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileLMfgCX"
+*** You are running in headless mode.
+
+(firefox:25153): Gtk-WARNING **: 16:21:11.387: Locale not supported by C library.
+	Using the fallback 'C' locale.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624566071678	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileLMfgCX/search.json.mozlz4", (void 0)))
+1624566073173	Marionette	INFO	Listening on port 39469
+1624566073316	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624566225310	geckodriver	INFO	Listening on 127.0.0.1:39737
+1624566225313	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile8YMxzw"
+*** You are running in headless mode.
+
+(firefox:4898): Gtk-WARNING **: 16:23:45.328: Locale not supported by C library.
+	Using the fallback 'C' locale.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624566225554	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofile8YMxzw/search.json.mozlz4", (void 0)))
+1624566226905	Marionette	INFO	Listening on port 40083
+1624566226932	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624566229362	Marionette	INFO	Stopped listening on port 40083
+1624566298902	geckodriver	INFO	Listening on 127.0.0.1:43785
+1624566298905	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilenRgcgy"
+*** You are running in headless mode.
+
+(firefox:10529): Gtk-WARNING **: 16:24:58.920: Locale not supported by C library.
+	Using the fallback 'C' locale.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624566299145	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilenRgcgy/search.json.mozlz4", (void 0)))
+1624566300420	Marionette	INFO	Listening on port 44531
+1624566300529	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624566302644	Marionette	INFO	Stopped listening on port 44531
+1624566353915	geckodriver	INFO	Listening on 127.0.0.1:49241
+1624566353921	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileHkmYR2"
+*** You are running in headless mode.
+
+(firefox:15071): Gtk-WARNING **: 16:25:53.944: Locale not supported by C library.
+	Using the fallback 'C' locale.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624566354173	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileHkmYR2/search.json.mozlz4", (void 0)))
+1624566355460	Marionette	INFO	Listening on port 32935
+1624566355547	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624566357930	Marionette	INFO	Stopped listening on port 32935
+console.log: WebExtensions: reset-default-search: starting.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1624582441806	geckodriver	INFO	Listening on 127.0.0.1:41733
+1624582441809	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilezVJEL3"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624582442061	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilezVJEL3/search.json.mozlz4", (void 0)))
+1624582443322	Marionette	INFO	Listening on port 43499
+1624582443428	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624582535655	geckodriver	INFO	Listening on 127.0.0.1:42909
+1624582535658	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilejNRGrF"
+*** You are running in headless mode.
+
+(firefox:12299): Gtk-WARNING **: 20:55:35.672: Locale not supported by C library.
+	Using the fallback 'C' locale.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624582535905	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilejNRGrF/search.json.mozlz4", (void 0)))
+1624582537155	Marionette	INFO	Listening on port 35177
+1624582537191	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624582545979	geckodriver	INFO	Listening on 127.0.0.1:50183
+1624582545982	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofiler1LMHB"
+*** You are running in headless mode.
+
+(firefox:13261): Gtk-WARNING **: 20:55:46.000: Locale not supported by C library.
+	Using the fallback 'C' locale.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624582546232	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofiler1LMHB/search.json.mozlz4", (void 0)))
+1624582547416	Marionette	INFO	Listening on port 32795
+1624582547500	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624582548633	Marionette	INFO	Stopped listening on port 32795
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+console.log: WebExtensions: reset-default-search: starting.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1624583040488	geckodriver	INFO	Listening on 127.0.0.1:36931
+1624583040491	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilejrvK9m"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624583040780	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilejrvK9m/search.json.mozlz4", (void 0)))
+1624583042211	Marionette	INFO	Listening on port 38753
+1624583042313	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624583043514	Marionette	INFO	Stopped listening on port 38753
+1624586644426	geckodriver	INFO	Listening on 127.0.0.1:46679
+1624586644429	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilerpRTKJ"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+1624586644698	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilerpRTKJ/search.json.mozlz4", (void 0)))
+1624586645975	Marionette	INFO	Listening on port 36473
+1624586646046	Marionette	WARN	TLS certificate errors will be ignored for this session
+1624586648503	Marionette	INFO	Stopped listening on port 36473
+1625763900311	geckodriver	INFO	Listening on 127.0.0.1:35531
+1625763901306	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilesCBOS3"
+*** You are running in headless mode.
+
+(firefox:5698): Gtk-WARNING **: 13:05:01.403: Locale not supported by C library.
+	Using the fallback 'C' locale.
+1625763901933	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilesCBOS3/search.json.mozlz4", (void 0)))
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1625763904070	Marionette	INFO	Listening on port 38543
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1625763904130	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1625763905414	Marionette	INFO	Stopped listening on port 38543
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1626115631412	geckodriver	INFO	Listening on 127.0.0.1:35805
+1626115632409	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilepHUDDH"
+*** You are running in headless mode.
+
+(firefox:11149): Gtk-WARNING **: 14:47:12.532: Locale not supported by C library.
+	Using the fallback 'C' locale.
+1626115633153	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilepHUDDH/search.json.mozlz4", (void 0)))
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1626115635209	Marionette	INFO	Listening on port 42463
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1626115635257	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1626115636368	Marionette	INFO	Stopped listening on port 42463
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt

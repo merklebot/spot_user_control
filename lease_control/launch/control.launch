@@ -1,0 +1,24 @@
+<launch>
+  <arg name="username" default="" />
+  <arg name="password" default="" />
+  <arg name="hostname" default="192.168.50.3" />
+  <include file="$(find spot_driver)/launch/driver.launch">
+      <arg name="username" value="$(arg username)"/>
+      <arg name="password" value="$(arg password)"/>
+      <arg name="hostname" value="$(arg hostname)"/>
+  </include>
+    <arg name="config" default="$(find bag_record)/config/config" />
+    <node pkg="bag_record" type="record.py" name="rosbag_recorder" output="screen">
+        <param name="config" value="$(arg config)" />
+        <param name="username" value="$(arg username)"/>
+        <param name="password" value="$(arg password)"/>
+        <param name="hostname" value="$(arg hostname)"/>
+    </node>
+    <node pkg="lease_control" type="estop_control.py" name="estop_control" output="screen">
+        <param name="username" value="$(arg username)"/>
+        <param name="password" value="$(arg password)"/>
+        <param name="hostname" value="$(arg hostname)"/>
+    </node>
+    <node pkg="lease_control" type="user_control.py" name="user_control" output="screen">
+    </node>
+</launch>
