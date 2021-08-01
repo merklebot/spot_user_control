@@ -13,7 +13,7 @@ Packages for manipulating with users and recording rosbag backup files for Spot.
 Clone repository to your ROS workspace:
 ```bash
 cd ~/catkin_ws/src
-git clone 
+git clone https://github.com/merklebot/spot_user_control.git
 ```
 Build the workspace:
 ```bash
