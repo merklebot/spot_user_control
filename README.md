@@ -33,6 +33,7 @@ Run `create_user.py` script in `lease_control` package to create new user with e
 roscd lease_control
 python3 scripts/create_user.py <e-mail> <ssh public key>
 ```
+User and password to connect to Spot using SDk are in `credentials` file in the new user home directory.
 To delete user run `delete_user.py`:
 ```bash
 roscd lease_control
