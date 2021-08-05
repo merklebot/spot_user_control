@@ -19,6 +19,6 @@
         <param name="password" value="$(arg password)"/>
         <param name="hostname" value="$(arg hostname)"/>
     </node>
-    <node pkg="lease_control" type="user_control.py" name="user_control" output="screen">
-    </node>
+    <!-- <node pkg="lease_control" type="user_control.py" name="user_control" output="screen">
+    </node> -->
 </launch>
