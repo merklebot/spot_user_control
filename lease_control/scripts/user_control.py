@@ -42,6 +42,7 @@ class UserControl:
                 self.password = line[1].strip()
                 pinata_pub = line[2].strip()
                 pinata_secret = line[3].strip()
+                self.mail_password = line[4].strip()
         self.pinata = PinataPy(pinata_pub, pinata_secret)
         rospy.loginfo("user_control ready")
     
@@ -113,7 +114,7 @@ class UserControl:
         smtp_server = "smtp.gmail.com"
         from_email = "spot@robonomics.network"
         sender_email = "spot.sdk.education@gmail.com"
-        password = ""
+        password = self.mail_password
         message = MIMEMultipart()
         message["Subject"] = "Spot Lesson"
         message["From"] = from_email
