@@ -40,9 +40,9 @@ class UserControl:
                 line = line.split('/')
                 self.username = line[0].strip()
                 self.password = line[1].strip()
-        #         pinata_pub = line[2].strip()
-        #         pinata_secret = line[3].strip()
-        # self.pinata = PinataPy(pinata_pub, pinata_secret)
+                pinata_pub = line[2].strip()
+                pinata_secret = line[3].strip()
+        self.pinata = PinataPy(pinata_pub, pinata_secret)
         rospy.loginfo("user_control ready")
     
     def create_user_pass(self):
@@ -102,17 +102,11 @@ class UserControl:
         del_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         rospy.loginfo(f"Deleted core user {username}")
 
-    def create_archive(self, directory):
-        files = os.listdir(directory)
-        date = str(datetime.utcnow()).split()
-        with zipfile.ZipFile(f"{directory}rosbags_{date[0]}.zip", "w") as myzip:
-            for f in files:
-                myzip.write(f"{directory}{f}")
-        rospy.loginfo(f"Archive created {directory}rosbags_{date[0]}.zip")
+    def pin_to_ipfs(self, directory):
         time.sleep(3)
-        # res = self.pinata.pin_file_to_ipfs(f"{directory}rosbags_{date[0]}.zip")
-        # rospy.loginfo(f"Published to IPFS with hash: {res['IpfsHash']}")
-        # return res['IpfsHash']
+        res = self.pinata.pin_file_to_ipfs(directory)
+        rospy.loginfo(f"Published to IPFS with hash: {res['IpfsHash']}")
+        return res['IpfsHash']
 
     def send_email(self, receiver_email, text):
         port = 465  # For SSL
@@ -157,17 +151,16 @@ class UserControl:
                                 self.delete_user_spot(line[0])
                                 self.delete_user_core(line[0])
                                 rospy.loginfo(f"Deleted user {line[0]}")
-                                # time.sleep(10)
-                                # ipfs_hash = self.create_archive(f"/home/spot/{line[0]}/")
-                                # link = f"https://gateway.ipfs/ipfs/{ipfs_hash}"
-                                # email_text = f"""
-                                # You've passed Spot lesson
-                                # Link to your rosbag log file:
-                                # {link}
-                                # Come to next lessons
-                                # """
-                                # self.send_email(info[0], email_text)
-                                # rospy.loginfo(f"Link {link} sent to {info[0]}")
+                                time.sleep(10)
+                                ipfs_hash = self.pin_to_ipfs(f"/home/spot/{line[0]}/")
+                                link = f"https://gateway.ipfs/ipfs/{ipfs_hash}"
+                                email_text = f"""
+                                You've passed Spot lesson
+                                Link to your rosbag log file:
+                                {link}
+                                """
+                                self.send_email(info[0], email_text)
+                                rospy.loginfo(f"Link {link} sent to {info[0]}")
                 time.sleep(0.3)
             except Exception as e:
                 rospy.loginfo(f"Exception: {e}")
