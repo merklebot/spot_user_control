@@ -154,14 +154,14 @@ class UserControl:
                                 rospy.loginfo(f"Deleted user {line[0]}")
                                 time.sleep(10)
                                 ipfs_hash = self.pin_to_ipfs(f"/home/spot/{line[0]}/")
-                                link = f"https://gateway.ipfs/ipfs/{ipfs_hash}"
-                                email_text = f"""
-                                You've passed Spot lesson
-                                Link to your rosbag log file:
-                                {link}
-                                """
-                                self.send_email(info[0], email_text)
-                                rospy.loginfo(f"Link {link} sent to {info[0]}")
+                                # link = f"https://gateway.ipfs/ipfs/{ipfs_hash}"
+                                # email_text = f"""
+                                # You've passed Spot lesson
+                                # Link to your rosbag log file:
+                                # {link}
+                                # """
+                                # self.send_email(info[0], email_text)
+                                # rospy.loginfo(f"Link {link} sent to {info[0]}")
                 time.sleep(0.3)
             except Exception as e:
                 rospy.loginfo(f"Exception: {e}")
