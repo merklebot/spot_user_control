@@ -3,9 +3,9 @@
 import random
 import time
 from requests import Session
-from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from selenium.webdriver import FirefoxOptions
+# from selenium import webdriver
+# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+# from selenium.webdriver import FirefoxOptions
 import subprocess
 from ast import literal_eval
 from datetime import datetime, timedelta
@@ -24,6 +24,7 @@ from email.header import decode_header
 import webbrowser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import lzma
 
 
 class UserControl:
@@ -103,8 +104,23 @@ class UserControl:
         del_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         rospy.loginfo(f"Deleted core user {username}")
 
+    def compress_files(self, directory):
+        files = os.listdir(directory)
+        if directory[-1] != "/":
+            directory += "/"
+        for filename in files:
+            with open(f"{directory}{filename}", "rb") as f:
+                data = f.read()
+            f_comressed = lzma.open(f"{directory}{filename}.xz", "wb")
+            f_comressed.write(data)
+            f_comressed.close()
+            rospy.loginfo(f"{directory}{filename} compressed")
+            os.remove(f"{directory}{filename}")
+
+
     def pin_to_ipfs(self, directory):
         time.sleep(3)
+        self.compress_files(directory)
         res = self.pinata.pin_file_to_ipfs(directory)
         rospy.loginfo(f"Published to IPFS with hash: {res['IpfsHash']}")
         return res['IpfsHash']
