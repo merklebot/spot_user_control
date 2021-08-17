@@ -20,7 +20,7 @@ class MissionStateRecorder():
         username = rospy.get_param("~username")
         password = rospy.get_param("~password")
         hostname = rospy.get_param("~hostname")
-        sdk = bosdyn.client.create_standard_sdk('mission_state_recorging')
+        sdk = bosdyn.client.create_standard_sdk('mission_state_recorging', [MissionClient])
         self.robot = sdk.create_robot(hostname)
         self.robot.authenticate(username, password)
         self.misson_client = self.robot.ensure_client('robot-mission')
