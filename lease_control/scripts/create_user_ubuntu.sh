@@ -2,8 +2,7 @@
 
 username=$1
 password=$2
-comment=$3
 
-useradd -s /bin/bash -d /home/$username/ -c $comment -m $username
+useradd -s /bin/bash -d /home/$username/ -m $username
 echo "$password\n$password" | passwd $username
 

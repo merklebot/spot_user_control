@@ -24,14 +24,14 @@ source devel/setup.bash
 
 ## Run
 
-Run `control.launch` file for recording rosbags and run e-stop:
+Run `control.launch` file for recording logs and run e-stop (it is running on spot):
 ```bash
 roslaunch lease_control control.launch
 ```
-Run `create_user.py` script in `lease_control` package to create new user with e-mail and your ssh public key:
+Run `create_user.py` script in `lease_control` package to create new user with your ssh public key:
 ```bash
 roscd lease_control
-python3 scripts/create_user.py <e-mail> <ssh public key>
+python3 scripts/create_user.py <ssh public key>
 ```
 User and password to connect to Spot using SDk are in `credentials` file in the new user home directory.
 To delete user run `delete_user.py`:

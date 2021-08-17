@@ -3,9 +3,9 @@
 import random
 import time
 from requests import Session
-# from selenium import webdriver
-# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-# from selenium.webdriver import FirefoxOptions
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver import FirefoxOptions
 import subprocess
 from ast import literal_eval
 from datetime import datetime, timedelta
@@ -88,10 +88,8 @@ class UserControl:
             f.write(f"Password: {password}")
         rospy.loginfo(f"Created spot user {username}")
 
-    def add_user_core(self, username, password, email, key):
-        date = datetime.utcnow().timetuple()
-        comment = f'{email}/{date.tm_year}.{date.tm_mon}.{date.tm_mday}.{date.tm_hour}.{date.tm_min}.{date.tm_sec}'
-        command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password} {comment}"
+    def add_user_core(self, username, password, key):
+        command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
         create_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         time.sleep(3)
         with open(f"/home/{username}/.ssh/authorized_keys", "a") as f:
