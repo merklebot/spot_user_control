@@ -30,12 +30,28 @@ roslaunch lease_control control.launch
 ```
 Run `create_user.py` script in `lease_control` package to create new user with your ssh public key:
 ```bash
-roscd lease_control
-python3 scripts/create_user.py <ssh public key>
+source /opt/ros/melodic/setup.bash
+python3 /home/spot/catkin_ws/src/spot_user_control/lease_control/scripts/create_user.py "<ssh public key>"
 ```
-User and password to connect to Spot using SDk are in `credentials` file in the new user home directory.
+You will see:
+```bash
+[INFO] [1629206948.738579, 0.000000]: user_control ready
+Enter new UNIX password: Retype new UNIX password: passwd: password updated successfully
+[INFO] [1629206951.742306, 0.000000]: Created core user student_AQZ
+[INFO] [1629206955.379461, 0.000000]: Created spot user student_AQZ
+```
+User and password to connect to Spot using SDK are in `credentials` file in the new user home directory.
 To delete user run `delete_user.py`:
 ```bash
-roscd lease_control
-python3 scripts/delete_user.py <username>
+source /opt/ros/melodic/setup.bash
+python3 /home/spot/catkin_ws/src/spot_user_control/lease_control/scripts/delete_user.py <username>
+```
+You will see:
+```bash
+[INFO] [1629207104.224429, 0.000000]: user_control ready
+[INFO] [1629207104.227672, 0.000000]: Deleted core user student_AQZ
+[INFO] [1629207109.343382, 0.000000]: Deleted spot user student_AQZ
+[INFO] [1629207117.359424, 0.000000]: /home/spot/student_AQZ/file1 compressed
+[INFO] [1629207117.366699, 0.000000]: /home/spot/student_AQZ/file2 compressed
+[INFO] [1629207118.198969, 0.000000]: Published to IPFS with hash: Qmd4TGSAxXpG5Q2U5sryTyRtjeSEYrHbXncfcQthtVnkQb
 ```
