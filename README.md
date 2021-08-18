@@ -28,26 +28,25 @@ Run `control.launch` file for recording logs and run e-stop (it is running on sp
 ```bash
 roslaunch lease_control control.launch
 ```
-Run `create_user.py` script in `lease_control` package to create new user with your ssh public key:
-```bash
-source /opt/ros/melodic/setup.bash
-python3 /home/spot/catkin_ws/src/spot_user_control/lease_control/scripts/create_user.py "<ssh public key>"
-```
-You will see:
-```bash
+
+Run `create_user` script in `lease_control` package to create new user with your ssh public key:
+
+```console
+source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash
+rosrun lease_control create_user "<ssh public key>"
 [INFO] [1629206948.738579, 0.000000]: user_control ready
 Enter new UNIX password: Retype new UNIX password: passwd: password updated successfully
 [INFO] [1629206951.742306, 0.000000]: Created core user student_AQZ
 [INFO] [1629206955.379461, 0.000000]: Created spot user student_AQZ
 ```
+
 User and password to connect to Spot using SDK are in `credentials` file in the new user home directory.
-To delete user run `delete_user.py`:
-```bash
-source /opt/ros/melodic/setup.bash
-python3 /home/spot/catkin_ws/src/spot_user_control/lease_control/scripts/delete_user.py <username>
-```
-You will see:
-```bash
+
+To delete user run `delete_user`:
+
+```console
+source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash
+rosrun lease_control delete user <username>
 [INFO] [1629207104.224429, 0.000000]: user_control ready
 [INFO] [1629207104.227672, 0.000000]: Deleted core user student_AQZ
 [INFO] [1629207109.343382, 0.000000]: Deleted spot user student_AQZ
