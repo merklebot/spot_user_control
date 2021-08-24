@@ -39,10 +39,10 @@ class MissionStateRecorder():
             mission_run = True
             f = open(file_name, "w")
             while mission_run:
+                time.sleep(0.5)
                 mission_run = (self.misson_client.get_state().status == 2)
-                time.sleep(1)
-                f.write(f"{self.misson_client.get_state()}\n")
-                #power_on = False
+                time.sleep(0.5)
+            f.write(f"{self.misson_client.get_state()}\n")
             rospy.loginfo('Finished recording mission status')
             f.close()
             time.sleep(2)

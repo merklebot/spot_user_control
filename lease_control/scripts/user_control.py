@@ -95,6 +95,7 @@ class UserControl:
         with open(f"/home/{username}/.ssh/authorized_keys", "a") as f:
             f.write(f"{key}\n")
         self.create_lessons_task(username)
+        os.mkdir(f"/home/spot/{username}")
         rospy.loginfo(f"Created core user {username}")
 
     def delete_user_core(self, username):
