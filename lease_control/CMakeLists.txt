@@ -163,8 +163,8 @@ catkin_install_python(PROGRAMS
   scripts/user_control.py
   scripts/estop_control.py
 
-  scripts/create_user.py
-  scripts/delete_user.py
+  scripts/create_user
+  scripts/delete_user
 
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
