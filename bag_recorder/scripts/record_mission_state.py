@@ -36,9 +36,6 @@ class MissionStateRecorder():
             times = time.strftime('%X')
             times = times.split(':')
             file_name = f'/home/spot/{self.username}/mission_log_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
-            self.command = ['rosbag', 'record', f'--output-name={file_name}', '/tf', '/tf_static']
-            rosbag_proc = subprocess.Popen(self.command)
-            rosbag_proc_full = subprocess.Popen(self.command_full)
             mission_run = True
             f = open(file_name, "w")
             while mission_run:
@@ -58,7 +55,7 @@ class MissionStateRecorder():
             with open('/etc/passwd', 'r') as f:
                 for line in f:
                     line = line.split(':')
-                    if re.match("student_[A-Z]", line[0]) is not None:
+                    if (re.match("student_[A-Z]", line[0]) is not None) and (line[0] != 'student_HSD'):
                         self.username = line[0]
                         #rospy.loginfo(f"Found user {line[0]}")
                         mission_run = (self.misson_client.get_state().status == 2)

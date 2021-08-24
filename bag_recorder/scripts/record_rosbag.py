@@ -64,7 +64,7 @@ class BagRecorder():
             with open('/etc/passwd', 'r') as f:
                 for line in f:
                     line = line.split(':')
-                    if re.match("student_[A-Z]", line[0]) is not None:
+                    if (re.match("student_[A-Z]", line[0]) is not None) and (line[0] != 'student_HSD'):
                         self.username = line[0]
                         #rospy.loginfo(f"Found user {line[0]}")
                         power = self.robot.is_powered_on()
