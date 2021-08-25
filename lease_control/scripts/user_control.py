@@ -103,8 +103,7 @@ class UserControl:
         Logs for Spot Education lesson №{metadata['lesson']}
         Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{metadata['lesson']}.md
         Lesson start data: {time.ctime()}
-        Student e-mail: {metadata['e-mail']}
-        """
+        Student e-mail: {metadata['e-mail']}"""
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
             met_f.write(met_text)
         self.lesson_pub.publish(str(metadata["lesson"]))
