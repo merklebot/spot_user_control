@@ -90,7 +90,7 @@ class UserControl:
             f.write(f"Password: {password}")
         rospy.loginfo(f"Created spot user {username}")
 
-    def add_user_core(self, username, password, metadata):    # metadata: {'key': '', 'lesson': , 'e-mail': ''}
+    def add_user_core(self, username, password, metadata):    # metadata: {'key': '', 'lesson': '', 'e-mail': ''}
         data = literal_eval(metadata)
         command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
         create_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
@@ -106,7 +106,7 @@ class UserControl:
         Student e-mail: {data['e-mail']}"""
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
             met_f.write(met_text)
-        self.lesson_pub.publish(str(data["lesson"]))
+        self.lesson_pub.publish(data["lesson"])
         rospy.loginfo(f"Created core user {username}")
 
     def delete_user_core(self, username):
