@@ -5,6 +5,7 @@ import bosdyn.client
 import rosnode
 import subprocess
 from pinatapy import PinataPy
+from std_msgs.msg import String
 from sensor_msgs.msg import CameraInfo
 from sensor_msgs.msg import Image
 from tf2_msgs.msg import TFMessage
@@ -17,6 +18,7 @@ class BagRecorder():
     def __init__(self):
         types = {'CameraInfo': CameraInfo, 'Image': Image, 'TFMessage': TFMessage, 'InteractiveMarkerUpdate': InteractiveMarkerUpdate}
         rospy.init_node(f"rosbag_recorder", anonymous=False)
+        rospy.Subscriber("/start_lesson", String, self.start_lesson_callback)
         config_path = rospy.get_param("~config")
         print(config_path)
         username = rospy.get_param("~username")
@@ -29,6 +31,7 @@ class BagRecorder():
         self.recording = False
         i = 0
         self.bag = None
+        self.lesson_number = 0
 
     def record(self):
         try:
@@ -37,26 +40,26 @@ class BagRecorder():
             date = date.split('/')
             times = time.strftime('%X')
             times = times.split(':')
-            file_name_full = f'/home/spot/rosbags/lesson_one_full_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
-            self.command_full = ['rosbag', 'record', f'--output-name={file_name_full}', '/spot/depth/back/camera_info', '/spot/depth/back/image', '/spot/depth/frontleft/camera_info', '/spot/depth/frontleft/image', '/spot/depth/frontright/camera_info', '/spot/depth/frontright/image', '/spot/depth/left/camera_info', '/spot/depth/left/image', '/spot/depth/right/camera_info', '/spot/depth/right/image', '/tf', '/tf_static', '/twist_marker_server/update']
-            files = os.listdir('/home/spot/')
-            if f'{self.username}' not in files:
-                os.mkdir(f'/home/spot/{self.username}')
-            file_name = f'/home/spot/{self.username}/lesson_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
-            self.command = ['rosbag', 'record', f'--output-name={file_name}', '/tf', '/tf_static']
-            rosbag_proc = subprocess.Popen(self.command)
-            rosbag_proc_full = subprocess.Popen(self.command_full)
+            if self.lesson_number == '3':
+                file_name = f'/home/spot/rosbags/rosbag_log_full_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
+                command = ['rosbag', 'record', f'--output-name={file_name_full}', '/spot/depth/back/camera_info', '/spot/depth/back/image', '/spot/depth/frontleft/camera_info', '/spot/depth/frontleft/image', '/spot/depth/frontright/camera_info', '/spot/depth/frontright/image', '/spot/depth/left/camera_info', '/spot/depth/left/image', '/spot/depth/right/camera_info', '/spot/depth/right/image', '/tf', '/tf_static', '/twist_marker_server/update']
+            else:
+                file_name = f'/home/spot/{self.username}/rosbag_log_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
+                command = ['rosbag', 'record', f'--output-name={file_name}', '/tf', '/tf_static']
+            rosbag_proc = subprocess.Popen(command)
             power_on = True
             while power_on:
                 power_on = self.robot.is_powered_on()
                 time.sleep(1)
                 #power_on = False
             rosbag_proc.terminate()
-            rosbag_proc_full.terminate()
             rospy.loginfo('Finished recording')
             time.sleep(2)
         except Exception as e:
             rospy.loginfo(e)
+    
+    def start_lesson_callback(self, data):
+        self.lesson_number = data
         
     def spin(self):
         rospy.loginfo("Waiting fot student user")

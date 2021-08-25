@@ -5,6 +5,7 @@ import bosdyn.client
 import rosnode
 import subprocess
 from pinatapy import PinataPy
+from std_msgs.msg import String
 from sensor_msgs.msg import CameraInfo
 from sensor_msgs.msg import Image
 from tf2_msgs.msg import TFMessage
@@ -17,6 +18,7 @@ import re
 class MissionStateRecorder():
     def __init__(self):
         rospy.init_node(f"mission_state_recorder", anonymous=False)
+        rospy.Subscriber("/start_lesson", String, self.start_lesson_callback)
         username = rospy.get_param("~username")
         password = rospy.get_param("~password")
         hostname = rospy.get_param("~hostname")
@@ -27,6 +29,10 @@ class MissionStateRecorder():
         self.recording = False
         i = 0
         self.bag = None
+        self.lesson_number = 0
+
+    def start_lesson_callback(self, data):
+        self.lesson_number = data
 
     def record(self):
         try:
@@ -52,16 +58,17 @@ class MissionStateRecorder():
     def spin(self):
         rospy.loginfo("Waiting fot student user")
         while True:
-            with open('/etc/passwd', 'r') as f:
-                for line in f:
-                    line = line.split(':')
-                    if (re.match("student_[A-Z]", line[0]) is not None) and (line[0] != 'student_HSD'):
-                        self.username = line[0]
-                        #rospy.loginfo(f"Found user {line[0]}")
-                        mission_run = (self.misson_client.get_state().status == 2)
-                        if mission_run:
-                            self.record()
-                    else:
-                        self.username = ''
+            if int(self.lesson_number) >= 4:
+                with open('/etc/passwd', 'r') as f:
+                    for line in f:
+                        line = line.split(':')
+                        if (re.match("student_[A-Z]", line[0]) is not None) and (line[0] != 'student_HSD'):
+                            self.username = line[0]
+                            #rospy.loginfo(f"Found user {line[0]}")
+                            mission_run = (self.misson_client.get_state().status == 2)
+                            if mission_run:
+                                self.record()
+                        else:
+                            self.username = ''
 
 MissionStateRecorder().spin()
