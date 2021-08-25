@@ -27,6 +27,7 @@ from email.mime.multipart import MIMEMultipart
 import lzma
 from ast import literal_eval
 from std_msgs.msg import String
+import stat
 
 class UserControl:
     def __init__(self):
@@ -99,6 +100,7 @@ class UserControl:
             f.write(f"{data['key']}\n")
         self.create_lessons_task(username)
         os.mkdir(f"/home/spot/{username}")
+        os.chmod(f"/home/spot/{username}", stat.S_IRWXO)
         met_text = f"""
         Logs for Spot Education lesson №{data['lesson']}
         Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{data['lesson']}.md
