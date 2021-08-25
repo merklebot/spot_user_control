@@ -101,7 +101,7 @@ class UserControl:
         os.mkdir(f"/home/spot/{username}")
         met_text = f"""
         Logs for Spot Education lesson №{data['lesson']}
-        Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{metadata['lesson']}.md
+        Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{data['lesson']}.md
         Lesson start data: {time.ctime()}
         Student e-mail: {data['e-mail']}"""
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
