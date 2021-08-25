@@ -100,13 +100,13 @@ class UserControl:
         self.create_lessons_task(username)
         os.mkdir(f"/home/spot/{username}")
         met_text = f"""
-        Logs for Spot Education lesson №{metadata['lesson']}
+        Logs for Spot Education lesson №{data['lesson']}
         Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{metadata['lesson']}.md
         Lesson start data: {time.ctime()}
-        Student e-mail: {metadata['e-mail']}"""
+        Student e-mail: {data['e-mail']}"""
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
             met_f.write(met_text)
-        self.lesson_pub.publish(str(metadata["lesson"]))
+        self.lesson_pub.publish(str(data["lesson"]))
         rospy.loginfo(f"Created core user {username}")
 
     def delete_user_core(self, username):
