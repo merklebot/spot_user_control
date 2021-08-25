@@ -2,6 +2,7 @@
 
 from user_control import UserControl
 import sys
+import os
 import time
 
 # python3 delete_user.py username
@@ -19,3 +20,4 @@ uc.delete_user_spot(user)
 uc.estop_pub.publish("press stop")
 time.sleep(5)
 ipfs_hash = uc.pin_to_ipfs(f"/home/spot/{user}/")
+os.rmdir(f"/home/spot/{user}")
