@@ -32,7 +32,7 @@ class MissionStateRecorder():
         self.lesson_number = 0
 
     def start_lesson_callback(self, data):
-        self.lesson_number = data
+        self.lesson_number = data.data
 
     def record(self):
         try:

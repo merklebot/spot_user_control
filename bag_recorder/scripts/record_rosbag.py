@@ -59,7 +59,7 @@ class BagRecorder():
             rospy.loginfo(e)
     
     def start_lesson_callback(self, data):
-        self.lesson_number = data
+        self.lesson_number = data.data
         
     def spin(self):
         rospy.loginfo("Waiting fot student user")
