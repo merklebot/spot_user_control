@@ -1,3 +1,4 @@
 lease_control/config/config
 lease_control/scripts/gecodriver.log
 lease_control/scripts/__pycache__
+bag_recorder/scripts/try.py

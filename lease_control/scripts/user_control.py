@@ -25,7 +25,8 @@ import webbrowser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import lzma
-
+from ast import literal_eval
+from std_msgs.msg import String
 
 class UserControl:
     def __init__(self):
@@ -34,6 +35,7 @@ class UserControl:
         self.lease_time = timedelta(hours=1)
         self.path = os.path.realpath(__file__)[:-24] 
         rospy.init_node(f"user_control", anonymous=True)
+        self.lesson_pub = rospy.Publisher("/start_lesson", String, queue_size=10, latch=True)
         self.hostname = '192.168.50.3'
         self.estop_pub = rospy.Publisher(f"/estop_core", String, queue_size=10)
         with open(f"{self.path}/config/config") as f:
@@ -88,14 +90,24 @@ class UserControl:
             f.write(f"Password: {password}")
         rospy.loginfo(f"Created spot user {username}")
 
-    def add_user_core(self, username, password, key):
+    def add_user_core(self, username, password, metadata):    # metadata: {'key': '', 'lesson': , 'e-mail': ''}
+        data = literal_eval(metadata)
         command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
         create_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         time.sleep(3)
         with open(f"/home/{username}/.ssh/authorized_keys", "a") as f:
-            f.write(f"{key}\n")
+            f.write(f"{data['key']}\n")
         self.create_lessons_task(username)
         os.mkdir(f"/home/spot/{username}")
+        met_text = f"""
+        Logs for Spot Education lesson №{metadata['lesson']}
+        Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{metadata['lesson']}.md
+        Lesson start data: {time.ctime()}
+        Student e-mail: {metadata['e-mail']}
+        """
+        with open(f"/home/spot/{username}/metadata", "w") as met_f:
+            met_f.write(met_text)
+        self.lesson_pub.publish(str(metadata["lesson"]))
         rospy.loginfo(f"Created core user {username}")
 
     def delete_user_core(self, username):
