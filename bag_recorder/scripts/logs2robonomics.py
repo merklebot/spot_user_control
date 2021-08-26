@@ -55,13 +55,13 @@ class RobonomicsLogSender:
             data = self.state_client.get_robot_state()
             text = str(data.battery_states[0])
             self.write_datalog(text)
-            time.sleep(6)
+            time.sleep(12)
             data = self.state_client.get_robot_state()
             if i >= len(data.system_fault_state.faults):
                 i = 0
             text = str(data.system_fault_state.faults[i])
             self.write_datalog(text)
-            time.sleep(6)
+            time.sleep(12)
 
 def run():
     try:
