@@ -49,11 +49,19 @@ class RobonomicsLogSender:
         print(f"Datalog created with extrinsic hash: {receipt.extrinsic_hash}")
 
     def spin(self):
+        i = 0
         while True:
+            i += 1
             data = self.state_client.get_robot_state()
-            text = data.battery_states[0]
+            text = str(data.battery_states[0])
             self.write_datalog(text)
-            time.sleep(12)
+            time.sleep(6)
+            data = self.state_client.get_robot_state()
+            if i >= len(data.system_fault_state.faults):
+                i = 0
+            text = str(data.system_fault_state.faults[i])
+            self.write_datalog(text)
+            time.sleep(6)
 
 if __name__ == '__main__':
     RobonomicsLogSender().spin()
