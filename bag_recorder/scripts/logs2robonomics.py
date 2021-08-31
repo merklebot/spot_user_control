@@ -63,11 +63,6 @@ class RobonomicsLogSender:
             self.write_datalog(text)
             time.sleep(12)
 
-def run():
-    try:
-        RobonomicsLogSender().spin()
-    except:
-        run()
 
 if __name__ == '__main__':
-    run()
+    RobonomicsLogSender().spin()

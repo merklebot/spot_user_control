@@ -6,9 +6,9 @@ import os
 import shutil
 import time
 
-# python3 delete_user.py username
+# python3 delete_user.py
 
-user = sys.argv[1]
+user = "student"
 uc = UserControl()
 with open('/etc/passwd', 'r') as f:
     for line in f:

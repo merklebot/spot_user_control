@@ -162,6 +162,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/user_control.py
   scripts/estop_control.py
+  scripts/wait4spot.py
 
   scripts/create_user
   scripts/delete_user
