@@ -10,7 +10,7 @@ import time
 class RobonomicsLogSender:
     def __init__(self):
         self.substrate = SubstrateInterface(
-                    url="wss://kusama.rpc.robonomics.network",
+                    url="wss://main.frontier.rpc.robonomics.network",
                     ss58_format=32,
                     type_registry_preset="substrate-node-template",
                     type_registry={
