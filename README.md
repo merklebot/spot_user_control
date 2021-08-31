@@ -46,7 +46,7 @@ To delete user run `delete_user`:
 
 ```console
 source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash
-rosrun lease_control delete user <username>
+rosrun lease_control delete user
 [INFO] [1629207104.224429, 0.000000]: user_control ready
 [INFO] [1629207104.227672, 0.000000]: Deleted core user student_AQZ
 [INFO] [1629207109.343382, 0.000000]: Deleted spot user student_AQZ
