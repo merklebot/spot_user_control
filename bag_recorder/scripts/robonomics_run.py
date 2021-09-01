@@ -52,6 +52,54 @@ class RobonomicsRun:
         self._graph_nav_client = self._robot.ensure_client(GraphNavClient.default_service_name)
         self._estop_client = self._robot.ensure_client('estop')
 
+    def _upload_graph_and_snapshots(self, *args):
+        """Upload the graph and snapshots to the robot."""
+        print("Loading the graph from disk into local storage...")
+        self._upload_filepath = "/home/spot/track"
+        with open(self._upload_filepath + "/graph", "rb") as graph_file:
+            # Load the graph from disk.
+            data = graph_file.read()
+            self._current_graph = map_pb2.Graph()
+            self._current_graph.ParseFromString(data)
+            print("Loaded graph has {} waypoints and {} edges".format(
+                len(self._current_graph.waypoints), len(self._current_graph.edges)))
+        for waypoint in self._current_graph.waypoints:
+            # Load the waypoint snapshots from disk.
+            with open(self._upload_filepath + "/waypoint_snapshots/{}".format(waypoint.snapshot_id),"rb") as snapshot_file:
+                waypoint_snapshot = map_pb2.WaypointSnapshot()
+                waypoint_snapshot.ParseFromString(snapshot_file.read())
+                self._current_waypoint_snapshots[waypoint_snapshot.id] = waypoint_snapshot
+        for edge in self._current_graph.edges:
+            # Load the edge snapshots from disk.
+            with open(self._upload_filepath + "/edge_snapshots/{}".format(edge.snapshot_id),
+                      "rb") as snapshot_file:
+                edge_snapshot = map_pb2.EdgeSnapshot()
+                edge_snapshot.ParseFromString(snapshot_file.read())
+                self._current_edge_snapshots[edge_snapshot.id] = edge_snapshot
+        # Upload the graph to the robot.
+        print("Uploading the graph and snapshots to the robot...")
+        response = self._graph_nav_client.upload_graph(lease=self._lease.lease_proto,
+                                                       graph=self._current_graph)
+        # Upload the snapshots to the robot.
+        for snapshot_id in response.unknown_waypoint_snapshot_ids:
+            waypoint_snapshot = self._current_waypoint_snapshots[snapshot_id]
+            self._graph_nav_client.upload_waypoint_snapshot(waypoint_snapshot)
+            print("Uploaded {}".format(waypoint_snapshot.id))
+        for snapshot_id in response.unknown_edge_snapshot_ids:
+            edge_snapshot = self._current_edge_snapshots[snapshot_id]
+            self._graph_nav_client.upload_edge_snapshot(edge_snapshot)
+            print("Uploaded {}".format(edge_snapshot.id))
+
+        # The upload is complete! Check that the robot is localized to the graph,
+        # and it if is not, prompt the user to localize the robot before attempting
+        # any navigation commands.
+        localization_state = self._graph_nav_client.get_localization_state()
+        if not localization_state.localization.waypoint_id:
+            # The robot is not localized to the newly uploaded graph.
+            print("\n")
+            print("Upload complete! The robot is currently not localized to the map; please localize", \
+                   "the robot using commands (2) or (3) before attempting a navigation command.")
+
     def id_to_short_code(self, id):
         """Convert a unique id to a 2 letter short code."""
         tokens = id.split('-')
