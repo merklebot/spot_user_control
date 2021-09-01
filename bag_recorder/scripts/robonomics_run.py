@@ -16,7 +16,7 @@ from bosdyn.api import robot_state_pb2
 from bosdyn.api.graph_nav import graph_nav_pb2
 from bosdyn.api.graph_nav import map_pb2
 from bosdyn.api.graph_nav import nav_pb2
-import graph_nav_util
+
 # import psutil
 
 class RobonomicsRun:
@@ -51,6 +51,12 @@ class RobonomicsRun:
         self._robot_state_client = self._robot.ensure_client(RobotStateClient.default_service_name)
         self._graph_nav_client = self._robot.ensure_client(GraphNavClient.default_service_name)
         self._estop_client = self._robot.ensure_client('estop')
+        self._current_edges = dict()  #maps to_waypoint to list(from_waypoint)
+        self._current_waypoint_snapshots = dict()  # maps id to waypoint snapshot
+        self._current_edge_snapshots = dict()  # maps id to edge snapshot
+        self._current_annotation_name_to_wp_id = dict()
+        self.lease = self._lease_client.acquire()
+        lease_keep_alive = LeaseKeepAlive(self._lease_client)
 
     def _upload_graph_and_snapshots(self, *args):
         """Upload the graph and snapshots to the robot."""
@@ -78,7 +84,7 @@ class RobonomicsRun:
                 self._current_edge_snapshots[edge_snapshot.id] = edge_snapshot
         # Upload the graph to the robot.
         print("Uploading the graph and snapshots to the robot...")
-        response = self._graph_nav_client.upload_graph(lease=self._lease.lease_proto,
+        response = self._graph_nav_client.upload_graph(lease=self.lease.lease_proto,
                                                        graph=self._current_graph)
         # Upload the snapshots to the robot.
         for snapshot_id in response.unknown_waypoint_snapshot_ids:
@@ -236,8 +242,6 @@ class RobonomicsRun:
             return False
 
     def route(self):
-        lease = self._lease_client.acquire()
-        lease_keep_alive = LeaseKeepAlive(self._lease_client)
         time.sleep(1)
         while self._estop_client.get_status().stop_level != 4:
             time.sleep(1)
