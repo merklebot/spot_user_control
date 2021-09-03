@@ -16,29 +16,39 @@ from bosdyn.api import robot_state_pb2
 from bosdyn.api.graph_nav import graph_nav_pb2
 from bosdyn.api.graph_nav import map_pb2
 from bosdyn.api.graph_nav import nav_pb2
+import math
 
 # import psutil
 
 class RobonomicsRun:
     def __init__(self):
         self.substrate = SubstrateInterface(
-                    url="wss://main.frontier.rpc.robonomics.network",
-                    ss58_format=32,
-                    type_registry_preset="substrate-node-template",
-                    type_registry={
-                        "types": {
-                            "Record": "Vec<u8>",
-                            "<T as frame_system::Config>::AccountId": "AccountId",
-                            "RingBufferItem": {
-                                "type": "struct",
-                                "type_mapping": [
-                                    ["timestamp", "Compact<u64>"],
-                                    ["payload", "Vec<u8>"],
-                                ],
-                            },
-                        }
+            url="ws://127.0.0.1:9944",
+            ss58_format=32,
+            type_registry_preset="substrate-node-template",
+            type_registry={
+                "types": {
+                    "Record": "Vec<u8>",
+                    "Parameter": "Bool",
+                    "LaunchParameter": "Bool",
+                    "<T as frame_system::Config>::AccountId": "AccountId",
+                    "RingBufferItem": {
+                        "type": "struct",
+                        "type_mapping": [
+                            ["timestamp", "Compact<u64>"],
+                            ["payload", "Vec<u8>"],
+                        ],
+                    },
+                    "RingBufferIndex": {
+                        "type": "struct",
+                        "type_mapping": [
+                            ["start", "Compact<u64>"],
+                            ["end", "Compact<u64>"],
+                        ],
                     }
-                )
+                }
+            },
+        )
         mnemonic = os.environ['ROBONOMICS_MNEMONIC_SEED']
         spot_password = os.environ['SPOT_PASSWORD']
         spot_username = os.environ['SPOT_USERNAME']
@@ -209,14 +219,48 @@ class RobonomicsRun:
         localization = nav_pb2.Localization()
         self._graph_nav_client.set_localization(initial_guess_localization=localization,
                                                 ko_tform_body=current_odom_tform_body)
+    
+    def _set_initial_localization_waypoint(self, waypoint):
+        """Trigger localization to a waypoint."""
+        # Take the first argument as the localization waypoint.
+        # if len(args) < 1:
+        #     # If no waypoint id is given as input, then return without initializing.
+        #     print("No waypoint specified to initialize to.")
+        #     return
+        destination_waypoint = self.find_unique_waypoint_id(
+            waypoint, self._current_graph, self._current_annotation_name_to_wp_id)
+        print(destination_waypoint)
+        if not destination_waypoint:
+            # Failed to find the unique waypoint id.
+            return
+
+        robot_state = self._robot_state_client.get_robot_state()
+        current_odom_tform_body = get_odom_tform_body(
+            robot_state.kinematic_state.transforms_snapshot).to_proto()
+        # Create an initial localization to the specified waypoint as the identity.
+        localization = nav_pb2.Localization()
+        localization.waypoint_id = destination_waypoint
+        localization.waypoint_tform_body.rotation.w = 1.0
+        print(localization)
+        self._graph_nav_client.set_localization(
+            initial_guess_localization=localization,
+            # It's hard to get the pose perfect, search +/-20 deg and +/-20cm (0.2m).
+            max_distance = 0.2,
+            max_yaw = 20.0 * math.pi / 180.0,
+            fiducial_init=graph_nav_pb2.SetLocalizationRequest.FIDUCIAL_INIT_NO_FIDUCIAL,
+            ko_tform_body=current_odom_tform_body)
 
     def get_waypoint_id(self, waypoint_number):
         graph = self._graph_nav_client.download_graph()
+        for waypoint in graph.waypoints:
+            if waypoint.annotations.name == f"waypoint_{waypoint_number}":
+                dest_waypoint = waypoint
+                break
         localization_id = self._graph_nav_client.get_localization_state().localization.waypoint_id
         # Update and print waypoints and edges
-        self._current_annotation_name_to_wp_id, self._current_edges = self.update_waypoints_and_edges(graph, localization_id)
+        self._current_annotation_name_to_wp_id, self._current_edges = self.update_waypoints_and_edges(self._current_graph, localization_id)
         destination_waypoint = self.find_unique_waypoint_id(
-            graph.waypoints[waypoint_number].id, self._current_graph, self._current_annotation_name_to_wp_id)
+            dest_waypoint.id, self._current_graph, self._current_annotation_name_to_wp_id)
         return destination_waypoint
     
     def _check_success(self, command_id=-1):
@@ -245,10 +289,16 @@ class RobonomicsRun:
         time.sleep(1)
         while self._estop_client.get_status().stop_level != 4:
             time.sleep(1)
+        self._upload_graph_and_snapshots()
         self._robot.power_on(timeout_sec=20)
         blocking_stand(self._robot_command_client, timeout_sec=10)
         self._set_initial_localization_fiducial()
         waypoint = self.get_waypoint_id(0)
+        print(waypoint)
+        self._set_initial_localization_waypoint(waypoint)
+        waypoint = self.get_waypoint_id(37)
+        print(waypoint)
+        # waypoint = "bosky-pike-eA0JCh6PPUwc23.baGTTxQ=="
         is_finished = False
         nav_to_cmd_id = None
         while not is_finished:
@@ -272,12 +322,14 @@ class RobonomicsRun:
         ch = self.substrate.get_chain_head()
         chain_events = self.substrate.get_events(ch)
         for ce in chain_events:
-                # if ce.value["event_id"] == "NewLaunch":
-                #     print(ce.params)
-                if ce.value["event_id"] == "NewLaunch" and ce.params[1]["value"] == self.keypair.ss58_address \
-                                             and ce.params[2]["value"] is True:  # yes/no
-                    print(f"\"ON\" launch command from employer.")
-                    self.route()
+            # if ce.value["event_id"] == "NewLaunch":
+            #     print(ce)
+            #     print(self.keypair.ss58_address)
+            if ce.value["event_id"] == "NewLaunch" and ce.params[1]["value"] == self.keypair.ss58_address \
+                                            and ce.params[2]["value"] is True:  # yes/no
+                print(f"\"ON\" launch command from employer.")
+                self.route()
+                # print("Route")
 
 
     def spin(self):
