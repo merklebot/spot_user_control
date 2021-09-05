@@ -335,3 +335,6 @@ class RobonomicsRun:
     def spin(self):
         print(f"Wait for payment")
         self.substrate.subscribe_block_headers(self.subscription_handler)
+
+if __name__ == '__main__':
+    RobonomicsRun().spin()

@@ -91,21 +91,26 @@ class UserControl:
             f.write(f"Password: {password}")
         rospy.loginfo(f"Created spot user {username}")
 
-    def add_user_core(self, username, password, metadata):    # metadata: {'key': '', 'lesson': '', 'e-mail': ''}
+    def add_user_core(self, username, password, metadata):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
         data = literal_eval(metadata)
         command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
         create_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         time.sleep(3)
         with open(f"/home/{username}/.ssh/authorized_keys", "a") as f:
-            f.write(f"{data['key']}\n")
+            for key in data['key']:
+                f.write(f"{key}\n")
         self.create_lessons_task(username)
         os.mkdir(f"/home/spot/{username}")
         os.chmod(f"/home/spot/{username}", stat.S_IRWXO)
+        emails = ''
+        for email in data['e-mail']:
+            emails += f"{email}, "
+        emails = emails[:-2]
         met_text = f"""
         Logs for Spot Education lesson №{data['lesson']}
         Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{data['lesson']}.md
         Lesson start data: {time.ctime()}
-        Student e-mail: {data['e-mail']}"""
+        Student e-mails: {emails}"""
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
             met_f.write(met_text)
         self.lesson_pub.publish(data["lesson"])
