@@ -3,12 +3,12 @@
 from user_control import UserControl
 import sys
 
-# rosrun lease_control create_user  "{'key': '', 'lesson': '', 'e-mail': ''}"
+# rosrun lease_control create_user  "{'key': [''], 'lesson': '', 'e-mail': ['']}"
 
 metadata = sys.argv[1]
 uc = UserControl()
-user, passw = uc.create_user_pass()
-user1, passw1 = uc.create_user_pass()
+passw = uc.create_user_pass()
+passw1 = uc.create_user_pass()
 user = "student"
 uc.add_user_core(user, passw1, metadata)
 uc.add_user_spot(user, passw)

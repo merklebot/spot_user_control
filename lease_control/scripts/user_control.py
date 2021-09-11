@@ -51,13 +51,10 @@ class UserControl:
         rospy.loginfo("user_control ready")
     
     def create_user_pass(self):
-        user = f'student_'
-        for i in range(3):
-            user += self.letters[random.randint(0, len(self.letters) - 1)]
         passw = ''
         for i in range(16):
             passw += self.passw[random.randint(0, len(self.passw) - 1)]
-        return user, passw
+        return passw
 
     def delete_user_spot(self, username):
         opts = FirefoxOptions()
@@ -94,7 +91,7 @@ class UserControl:
     def add_user_core(self, username, password, metadata):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
         data = literal_eval(metadata)
         command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
-        create_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         time.sleep(3)
         with open(f"/home/{username}/.ssh/authorized_keys", "a") as f:
             for key in data['key']:
@@ -118,7 +115,7 @@ class UserControl:
 
     def delete_user_core(self, username):
         command = f"{self.path}/scripts/del_user_ubuntu.sh {username}"
-        del_user = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         rospy.loginfo(f"Deleted core user {username}")
 
     def compress_files(self, directory):
@@ -133,7 +130,6 @@ class UserControl:
             f_comressed.close()
             rospy.loginfo(f"{directory}{filename} compressed")
             os.remove(f"{directory}{filename}")
-
 
     def pin_to_ipfs(self, directory):
         time.sleep(3)
@@ -154,7 +150,7 @@ class UserControl:
         message["To"] = receiver_email
         message.attach(MIMEText(text, 'plain'))
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             server.sendmail(from_email, receiver_email, message.as_string())
     
@@ -199,6 +195,3 @@ class UserControl:
             except Exception as e:
                 rospy.loginfo(f"Exception: {e}")
 
-
-if __name__ == '__main__':
-    UserControl().monitor_users()

@@ -33,11 +33,11 @@ Run `create_user` script in `lease_control` package to create new user with your
 
 ```console
 source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash
-rosrun lease_control create_user "{'key': '<ssh_pub_key>', 'lesson': '<lesson_number>', 'e-mail': '<student_mail>'}"
+rosrun lease_control create_user "{'key': ['<ssh_pub_key>'], 'lesson': '<lesson_number>', 'e-mail': ['<student_mail>']}"
 [INFO] [1629206948.738579, 0.000000]: user_control ready
 Enter new UNIX password: Retype new UNIX password: passwd: password updated successfully
-[INFO] [1629206951.742306, 0.000000]: Created core user student_AQZ
-[INFO] [1629206955.379461, 0.000000]: Created spot user student_AQZ
+[INFO] [1629206951.742306, 0.000000]: Created core user student
+[INFO] [1629206955.379461, 0.000000]: Created spot user student
 ```
 
 User and password to connect to Spot using SDK are in `credentials` file in the new user home directory.
