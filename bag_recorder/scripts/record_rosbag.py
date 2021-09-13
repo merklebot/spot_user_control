@@ -42,7 +42,7 @@ class BagRecorder():
             times = times.split(':')
             if self.lesson_number == '3':
                 file_name = f'/home/spot/rosbags/rosbag_log_full_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
-                command = ['rosbag', 'record', f'--output-name={file_name_full}', '/spot/depth/back/camera_info', '/spot/depth/back/image', '/spot/depth/frontleft/camera_info', '/spot/depth/frontleft/image', '/spot/depth/frontright/camera_info', '/spot/depth/frontright/image', '/spot/depth/left/camera_info', '/spot/depth/left/image', '/spot/depth/right/camera_info', '/spot/depth/right/image', '/tf', '/tf_static', '/twist_marker_server/update']
+                command = ['rosbag', 'record', f'--output-name={file_name}', '/spot/depth/back/camera_info', '/spot/depth/back/image', '/spot/depth/frontleft/camera_info', '/spot/depth/frontleft/image', '/spot/depth/frontright/camera_info', '/spot/depth/frontright/image', '/spot/depth/left/camera_info', '/spot/depth/left/image', '/spot/depth/right/camera_info', '/spot/depth/right/image', '/tf', '/tf_static', '/twist_marker_server/update']
             else:
                 file_name = f'/home/spot/{self.username}/rosbag_log_{date[0]}_{date[1]}_{date[2]}_{times[0]}:{times[1]}'
                 command = ['rosbag', 'record', f'--output-name={file_name}', '/tf', '/tf_static']
