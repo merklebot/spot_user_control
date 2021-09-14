@@ -64,6 +64,7 @@ class BagRecorder():
     def spin(self):
         rospy.loginfo("Waiting fot student user")
         while True:
+            time.sleep(0.5)
             with open('/etc/passwd', 'r') as f:
                 for line in f:
                     line = line.split(':')

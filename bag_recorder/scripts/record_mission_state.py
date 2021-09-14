@@ -58,6 +58,7 @@ class MissionStateRecorder():
     def spin(self):
         rospy.loginfo("Waiting fot student user")
         while True:
+            time.sleep(0.5)
             if int(self.lesson_number) >= 4:
                 with open('/etc/passwd', 'r') as f:
                     for line in f:
