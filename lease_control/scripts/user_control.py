@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random
+import shutil
 import time
 from requests import Session
 from selenium import webdriver
@@ -79,6 +80,7 @@ class UserControl:
         browser.find_element_by_name("username").send_keys(self.username)
         browser.find_element_by_name("password").send_keys(self.password)
         browser.find_element_by_xpath("//button[1]").click()
+        time.sleep(1)
         browser.find_element_by_class_name("Form_input__2z3OC").send_keys(username)
         browser.find_element_by_xpath("//input[@type='password']").send_keys(password)
         browser.find_element_by_xpath("//button[@id='applyButton']").click()
@@ -97,6 +99,8 @@ class UserControl:
             for key in data['key']:
                 f.write(f"{key}\n")
         self.create_lessons_task(username)
+        if os.path.exists(f"/home/spot/{username}"):
+            shutil.rmtree(f"/home/spot/{username}")
         os.mkdir(f"/home/spot/{username}")
         os.chmod(f"/home/spot/{username}", stat.S_IRWXO)
         emails = ''

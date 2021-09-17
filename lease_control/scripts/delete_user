@@ -10,12 +10,6 @@ import time
 
 user = "student"
 uc = UserControl()
-with open('/etc/passwd', 'r') as f:
-    for line in f:
-        line = line.split(':')
-        if line[0] == user:
-            info = line[4].split('/')
-            mail = info[0]
 uc.delete_user_core(user)
 uc.delete_user_spot(user)
 uc.estop_pub.publish("press stop")
