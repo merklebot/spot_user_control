@@ -20,6 +20,9 @@ import stat
 from tenacity import retry, stop_after_attempt, wait_fixed
 import shutil
 
+def fail_pin_to_ipfs(retry_state):
+        rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
+
 class UserControl:
     def __init__(self):
         self.letters = [chr(i) for i in range(65, 91)]
@@ -124,9 +127,6 @@ class UserControl:
             f_comressed.close()
             rospy.loginfo(f"{directory}{filename} compressed")
             os.remove(f"{directory}{filename}")
-
-    def fail_pin_to_ipfs(self, retry_state):
-        rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), retry_error_callback=fail_pin_to_ipfs)
     def pin_to_ipfs(self, directory):
