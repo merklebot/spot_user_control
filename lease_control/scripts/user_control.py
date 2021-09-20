@@ -3,32 +3,22 @@
 import random
 import shutil
 import time
-from requests import Session
 from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver import FirefoxOptions
 import subprocess
 from ast import literal_eval
 from datetime import datetime, timedelta
-from bosdyn.api import estop_pb2
-import bosdyn.client
 import os
 import rospy
 from std_msgs.msg import String
-import zipfile
 from pinatapy import PinataPy
 import re
-import smtplib, ssl
-import imaplib
-import email
-from email.header import decode_header
-import webbrowser
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import lzma
 from ast import literal_eval
 from std_msgs.msg import String
 import stat
+from tenacity import retry, stop_after_attempt, wait_fixed
+import shutil
 
 class UserControl:
     def __init__(self):
@@ -47,7 +37,6 @@ class UserControl:
                 self.password = line[1].strip()
                 pinata_pub = line[2].strip()
                 pinata_secret = line[3].strip()
-                self.mail_password = line[4].strip()
         self.pinata = PinataPy(pinata_pub, pinata_secret)
         rospy.loginfo("user_control ready")
     
@@ -72,6 +61,7 @@ class UserControl:
         browser.quit()
         rospy.loginfo(f"Deleted spot user {username}")
 
+    @retry(stop=stop_after_attempt(3))
     def add_user_spot(self, username, password):
         opts = FirefoxOptions()
         opts.add_argument("--headless")
@@ -135,28 +125,20 @@ class UserControl:
             rospy.loginfo(f"{directory}{filename} compressed")
             os.remove(f"{directory}{filename}")
 
+    def fail_pin_to_ipfs(self, retry_state):
+        rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
+
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5))
     def pin_to_ipfs(self, directory):
         time.sleep(3)
-        self.compress_files(directory)
-        res = self.pinata.pin_file_to_ipfs(directory)
-        rospy.loginfo(f"Published to IPFS with hash: {res['IpfsHash']}")
-        return res['IpfsHash']
-
-    def send_email(self, receiver_email, text):
-        port = 465  # For SSL
-        smtp_server = "smtp.gmail.com"
-        from_email = "spot@robonomics.network"
-        sender_email = "spot.sdk.education@gmail.com"
-        password = self.mail_password
-        message = MIMEMultipart()
-        message["Subject"] = "Spot Lesson"
-        message["From"] = from_email
-        message["To"] = receiver_email
-        message.attach(MIMEText(text, 'plain'))
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login(sender_email, password)
-            server.sendmail(from_email, receiver_email, message.as_string())
+        try:
+            res = self.pinata.pin_file_to_ipfs(directory)
+            rospy.loginfo(f"Published to IPFS with hash: {res['IpfsHash']}")
+            shutil.rmtree(directory)
+            return res['IpfsHash']
+        except Exception as e:
+            rospy.loginfo(f"Can't pin files to IPFS with exception {e}. Retrying...")
+            raise
     
     def create_lessons_task(self, user):
         os.mkdir(f"/home/{user}/lessons")
@@ -167,35 +149,4 @@ class UserControl:
             for i in range(len(less2_x)):
                 f.write(f"{{'x':{less2_x[i]}, 'y': {less2_y[i]}}}\n")
 
-    def monitor_users(self):
-        while not rospy.is_shutdown():
-            try:
-                time.sleep(0.3)
-                with open('/etc/passwd', 'r') as f:
-                    for line in f:
-                        line = line.split(':')
-                        if (re.match("student_[A-Z]", line[0]) is not None) and line[0] != 'student_HSD':
-                            info = line[4].split('/')
-                            time_created = info[1].split('.')
-                            end_date = datetime(int(time_created[0]), int(time_created[1]), int(time_created[2]), int(time_created[3]), int(time_created[4]), int(time_created[5]))
-                            end_date = end_date + self.lease_time
-                            now_date = datetime.utcnow()
-                            if now_date > end_date:
-                                self.estop_pub.publish("press stop")
-                                self.delete_user_spot(line[0])
-                                self.delete_user_core(line[0])
-                                rospy.loginfo(f"Deleted user {line[0]}")
-                                time.sleep(10)
-                                ipfs_hash = self.pin_to_ipfs(f"/home/spot/{line[0]}/")
-                                # link = f"https://gateway.ipfs/ipfs/{ipfs_hash}"
-                                # email_text = f"""
-                                # You've passed Spot lesson
-                                # Link to your rosbag log file:
-                                # {link}
-                                # """
-                                # self.send_email(info[0], email_text)
-                                # rospy.loginfo(f"Link {link} sent to {info[0]}")
-                time.sleep(0.3)
-            except Exception as e:
-                rospy.loginfo(f"Exception: {e}")
 
