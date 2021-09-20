@@ -128,7 +128,7 @@ class UserControl:
     def fail_pin_to_ipfs(self, retry_state):
         rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
 
-    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), retry_error_callback=self.fail_pin_to_ipfs)
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), retry_error_callback=fail_pin_to_ipfs)
     def pin_to_ipfs(self, directory):
         time.sleep(3)
         try:
