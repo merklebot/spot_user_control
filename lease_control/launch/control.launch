@@ -20,6 +20,8 @@
         <param name="password" value="$(arg password)"/>
         <param name="hostname" value="$(arg hostname)"/>
     </node>
+    <node pkg="lease_control" type="mqtt2ros.py" name="estop_button" output="screen" respawn="true">
+    </node>
     <!-- <node pkg="lease_control" type="estop_control.py" name="estop_control" output="screen" respawn="true">
         <param name="username" value="$(arg username)"/>
         <param name="password" value="$(arg password)"/>
