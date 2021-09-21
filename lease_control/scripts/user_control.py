@@ -28,7 +28,7 @@ class UserControl:
         self.letters = [chr(i) for i in range(65, 91)]
         self.passw = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)] + [str(i) for i in range(10)]
         self.lease_time = timedelta(hours=1)
-        self.path = os.path.realpath(__file__)[:-24] 
+        self.path = os.path.realpath(__file__)[:-24]
         rospy.init_node(f"user_control", anonymous=True)
         self.lesson_pub = rospy.Publisher("/start_lesson", String, queue_size=10, latch=True)
         self.hostname = '192.168.50.3'
@@ -111,6 +111,9 @@ class UserControl:
         rospy.loginfo(f"Created core user {username}")
 
     def delete_user_core(self, username):
+        files = os.listdir(f"/home/{username}/result")
+        for file in files:
+            shutil.copy2(f"/home/{username}/result/{file}", f"/home/spot/{username}/{file}")
         command = f"{self.path}/scripts/del_user_ubuntu.sh {username}"
         subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         rospy.loginfo(f"Deleted core user {username}")
@@ -148,5 +151,3 @@ class UserControl:
             f.write("Dots:\n")
             for i in range(len(less2_x)):
                 f.write(f"{{'x':{less2_x[i]}, 'y': {less2_y[i]}}}\n")
-
-
