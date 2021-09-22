@@ -108,6 +108,16 @@ class UserControl:
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
             met_f.write(met_text)
         self.lesson_pub.publish(data["lesson"])
+        with open("/etc/passwd", "r") as f:
+            for line in f:
+                line = line.split(":")
+                if line[0] == "student":
+                    uid = line[2]  
+        for root, dirs, files in os.walk(f"/home/{username}"):  
+            for d in dirs:  
+                os.chown(os.path.join(root, d), uid, uid)
+            for f in files:
+                os.chown(os.path.join(root, f), uid, uid)
         rospy.loginfo(f"Created core user {username}")
 
     def delete_user_core(self, username):
