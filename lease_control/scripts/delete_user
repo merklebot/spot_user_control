@@ -6,13 +6,23 @@ import os
 import shutil
 import time
 
+from lease_control.blockchain import DataLogger, create_substrate_interface
+
+
+SUBSTRATE_MNEMONIC = os.environ["MNEMONIC"]
+SUBSTRATE_URL = "wss://main.frontier.rpc.robonomics.network"
+
 # rosrun lease_control delete_user.py
 
 user = "student"
 uc = UserControl()
+substrate_interface = create_substrate_interface(SUBSTRATE_URL)
+datalogger = DataLogger(SUBSTRATE_MNEMONIC, substrate_interface)
 uc.delete_user_core(user)
 uc.delete_user_spot(user)
 uc.estop_pub.publish("press stop")
 time.sleep(5)
 uc.compress_files(f"/home/spot/{user}/")
 ipfs_hash = uc.pin_to_ipfs(f"/home/spot/{user}/")
+extrinsic_hash = datalogger.write(ipfs_hash)
+print(f"DataLog Extrinsic Hash: {extrinsic_hash}")
