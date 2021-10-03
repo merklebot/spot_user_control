@@ -156,8 +156,8 @@ class UserControl:
     def create_lessons_task(self, user):
         os.mkdir(f"/home/{user}/lessons")
         with open(f"/home/{user}/lessons/lesson2", "w") as f:
-            less2_x = [round(random.uniform(-0.5, 1), 1) for i in range(3)]
-            less2_y = [round(random.uniform(-0.5, 1), 1) for i in range(3)]
+            less2_x = [round(random.uniform(-14, -8), 1) for i in range(3)]
+            less2_y = [round(random.uniform(19, 28), 1) for i in range(3)]
             f.write("Dots:\n")
             for i in range(len(less2_x)):
                 f.write(f"{{'x':{less2_x[i]}, 'y': {less2_y[i]}}}\n")
