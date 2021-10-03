@@ -112,7 +112,7 @@ class UserControl:
             for line in f:
                 line = line.split(":")
                 if line[0] == "student":
-                    uid = line[2]  
+                    uid = int(line[2])  
         for root, dirs, files in os.walk(f"/home/{username}"):  
             for d in dirs:  
                 os.chown(os.path.join(root, d), uid, uid)
