@@ -59,9 +59,10 @@ class RobonomicsLogSender:
             data = self.state_client.get_robot_state()
             if i >= len(data.system_fault_state.faults):
                 i = 0
-            text = str(data.system_fault_state.faults[i])
-            self.write_datalog(text)
-            time.sleep(12)
+            if len(data.system_fault_state.faults) != 0:
+                text = str(data.system_fault_state.faults[i])
+                self.write_datalog(text)
+                time.sleep(12)
 
 
 if __name__ == '__main__':
