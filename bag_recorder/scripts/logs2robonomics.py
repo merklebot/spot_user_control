@@ -9,6 +9,16 @@ import time
 
 class RobonomicsLogSender:
     def __init__(self):
+        mnemonic = os.environ['ROBONOMICS_MNEMONIC_SEED']
+        spot_password = os.environ['SPOT_PASSWORD']
+        spot_username = os.environ['SPOT_USERNAME']
+        sdk = bosdyn.client.create_standard_sdk('robonomics_sender', [MissionClient])
+        robot = sdk.create_robot('192.168.50.3')
+        robot.authenticate(spot_username, spot_password)
+        self.state_client = robot.ensure_client('robot-state')
+        self.keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
+    
+    def connect(self):
         self.substrate = SubstrateInterface(
                     url="wss://main.frontier.rpc.robonomics.network",
                     ss58_format=32,
@@ -27,16 +37,9 @@ class RobonomicsLogSender:
                         }
                     }
                 )
-        mnemonic = os.environ['ROBONOMICS_MNEMONIC_SEED']
-        spot_password = os.environ['SPOT_PASSWORD']
-        spot_username = os.environ['SPOT_USERNAME']
-        sdk = bosdyn.client.create_standard_sdk('robonomics_sender', [MissionClient])
-        robot = sdk.create_robot('192.168.50.3')
-        robot.authenticate(spot_username, spot_password)
-        self.state_client = robot.ensure_client('robot-state')
-        self.keypair = Keypair.create_from_mnemonic(mnemonic, ss58_format=32)
 
     def write_datalog(self, data):
+        self.connect()
         call = self.substrate.compose_call(
             call_module="Datalog",
             call_function="record",

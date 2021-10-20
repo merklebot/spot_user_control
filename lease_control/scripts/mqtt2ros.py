@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import rospy
 import paho.mqtt.client as mqtt
 from std_msgs.msg import String

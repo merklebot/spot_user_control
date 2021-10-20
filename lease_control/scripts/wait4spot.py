@@ -18,3 +18,4 @@ def connect(client):
         connect(client)
 
 connect(id_client)
+print("Spot connected")
