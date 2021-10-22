@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from user_control import UserControl
+from lease_control.blockchain import UserControl
 import sys
 
 # rosrun lease_control create_user  "{'key': [''], 'lesson': '', 'e-mail': ['']}"

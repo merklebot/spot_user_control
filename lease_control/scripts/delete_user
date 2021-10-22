@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
+#!/usr/bin/env python3
 
-from user_control import UserControl
 import sys
 import os
 import shutil
 import time
 
-from lease_control.blockchain import DataLogger, create_substrate_interface
+from lease_control.blockchain import DataLogger, create_substrate_interface, UserControl
 
 
 SUBSTRATE_MNEMONIC = os.environ["MNEMONIC"]
