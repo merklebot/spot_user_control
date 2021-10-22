@@ -59,7 +59,7 @@ class Session:
         passw = self.uc.create_user_pass()
         passw1 = self.uc.create_user_pass()
         user = "student"
-        self.uc.add_user_core(user, passw1, key=self.key, lesson=self.lesson, email=self.user_email)
+        self.uc.add_user_core(user, passw1, keys=self.key, lesson=self.lesson, emails=self.user_email)
         self.uc.add_user_spot(user, passw)
         self.uc.estop_pub.publish("press allow")
 
