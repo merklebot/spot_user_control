@@ -33,13 +33,10 @@ class UserControl:
         self.lesson_pub = rospy.Publisher("/start_lesson", String, queue_size=10, latch=True)
         self.hostname = '192.168.50.3'
         self.estop_pub = rospy.Publisher(f"/estop_core", String, queue_size=10)
-        with open(f"{self.path}/config/config") as f:
-            for line in f:
-                line = line.split('/')
-                self.username = line[0].strip()
-                self.password = line[1].strip()
-                pinata_pub = line[2].strip()
-                pinata_secret = line[3].strip()
+        pinata_pub = os.environ["PINATA_PUBLIC"]
+        pinata_secret = os.environ["PINATA_SECRET"]
+        self.username = os.environ["SPOT_USERNAME"]
+        self.password = os.environ["SPOT_PASSWORD"]
         self.pinata = PinataPy(pinata_pub, pinata_secret)
         rospy.loginfo("user_control ready")
     
@@ -83,31 +80,30 @@ class UserControl:
             f.write(f"Password: {password}")
         rospy.loginfo(f"Created spot user {username}")
 
-    def add_user_core(self, username, password, metadata):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
-        data = literal_eval(metadata)
+    def add_user_core(self, username, password, keys, lesson, emails):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
         command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
         subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         time.sleep(3)
         with open(f"/home/{username}/.ssh/authorized_keys", "a") as f:
-            for key in data['key']:
+            for key in keys:
                 f.write(f"{key}\n")
         self.create_lessons_task(username)
         if os.path.exists(f"/home/spot/{username}"):
             shutil.rmtree(f"/home/spot/{username}")
         os.mkdir(f"/home/spot/{username}")
         os.chmod(f"/home/spot/{username}", stat.S_IRWXO)
-        emails = ''
-        for email in data['e-mail']:
-            emails += f"{email}, "
-        emails = emails[:-2]
+        emails_string = ''
+        for email in emails:
+            emails_string += f"{email}, "
+        emails_string = emails_string[:-2]
         met_text = f"""
-        Logs for Spot Education lesson №{data['lesson']}
-        Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{data['lesson']}.md
+        Logs for Spot Education lesson №{lesson}
+        Link to the lesson: https://github.com/LoSk-p/robonomics-wiki/blob/master/docs/en/spot-lesson{lesson}.md
         Lesson start data: {time.ctime()}
-        Student e-mails: {emails}"""
+        Student e-mails: {emails_string}"""
         with open(f"/home/spot/{username}/metadata", "w") as met_f:
             met_f.write(met_text)
-        self.lesson_pub.publish(data["lesson"])
+        self.lesson_pub.publish(lesson)
         with open("/etc/passwd", "r") as f:
             for line in f:
                 line = line.split(":")
