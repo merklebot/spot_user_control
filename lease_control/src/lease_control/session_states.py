@@ -17,6 +17,7 @@ class Session:
         self.lesson = lesson
         self.uc = UserControl()
         states = [
+            {"name": "before_start"},
             {"name": "started", "on_enter": ["create_user"], "on_exit": ["delete_user"]},
             {"name": "ipfs", "on_exit": ["send_to_ipfs"]},
             {"name": "blockchain", "on_exit": ["send_datalog"]},
@@ -24,6 +25,7 @@ class Session:
         ]
         initial_state = self.read_state()
         transitions = [
+            {"trigger": "start_session", "source": "before_start", "dest": "started"},
             {"trigger": "send_to_ipfs", "source": "started", "dest": "ipfs"},
             {"trigger": "send_hash_to_blockchain", "source": "ipfs", "dest": "blockchain"},
             {"trigger": "finish_session", "source": "blockchain", "dest": "finished"}
@@ -39,7 +41,7 @@ class Session:
         state: str
             name of current state for this session
         """
-        return "started"
+        return "before_start"
 
     def change_state_in_database(self):
         """
