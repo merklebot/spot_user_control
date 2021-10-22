@@ -10,12 +10,11 @@ SUBSTRATE_URL = "wss://main.frontier.rpc.robonomics.network"
 
 class Session:
 
-    def __init__(self, session_id, user_email, key=None, lesson=None, email=None):
+    def __init__(self, session_id, user_email, key=None, lesson=None):
         self.session_id = session_id
         self.user_email = user_email
         self.key = key
         self.lesson = lesson
-        self.email = email
         self.uc = UserControl()
         states = [
             {"name": "started", "on_enter": ["create_user"], "on_exit": ["delete_user"]},
@@ -53,12 +52,12 @@ class Session:
         Create Spot and core users and allow moving
         """
         print(f"Create user: {self.state}")
-        if self.key is None or self.lesson is None or self.email is None:
+        if self.key is None or self.lesson is None:
             raise CreateUserError("Key, lesson or email was not provided")
         passw = self.uc.create_user_pass()
         passw1 = self.uc.create_user_pass()
         user = "student"
-        self.uc.add_user_core(user, passw1, key=self.key, lesson=self.lesson, email=self.email)
+        self.uc.add_user_core(user, passw1, key=self.key, lesson=self.lesson, email=self.user_email)
         self.uc.add_user_spot(user, passw)
         self.uc.estop_pub.publish("press allow")
 
