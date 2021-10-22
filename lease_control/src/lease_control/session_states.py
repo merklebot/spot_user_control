@@ -30,7 +30,7 @@ class Session:
             {"trigger": "send_hash_to_blockchain", "source": "ipfs", "dest": "blockchain"},
             {"trigger": "finish_session", "source": "blockchain", "dest": "finished"}
         ]
-        self.machine = Machine(model=self, states=states, initial=initial_state, after_state_change="change_state_in_database")
+        self.machine = Machine(model=self, states=states, transitions=transitions, initial=initial_state, after_state_change="change_state_in_database")
 
     def read_state(self) -> str:
         """
