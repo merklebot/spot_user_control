@@ -34,7 +34,7 @@ class UserControl:
         self.hostname = '192.168.50.3'
         self.estop_pub = rospy.Publisher(f"/estop_core", String, queue_size=10)
         pinata_pub = os.environ["PINATA_PUBLIC"]
-        pinata_secret = os.environ["PINATA_SECRET"]
+        pinata_secret = os.environ["PINATA_PRIVATE"]
         self.username = os.environ["SPOT_USERNAME"]
         self.password = os.environ["SPOT_PASSWORD"]
         self.pinata = PinataPy(pinata_pub, pinata_secret)
