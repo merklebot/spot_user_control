@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 
-from lease_control.blockchain import UserControl
-import sys
+from lease_control.session_states import Session
+import argparse
+import time
 
 # rosrun lease_control create_user  "{'key': [''], 'lesson': '', 'e-mail': ['']}"
 
-metadata = sys.argv[1]
-uc = UserControl()
-passw = uc.create_user_pass()
-passw1 = uc.create_user_pass()
-user = "student"
-uc.add_user_core(user, passw1, metadata)
-uc.add_user_spot(user, passw)
-uc.estop_pub.publish("press allow")
+parser = argparse.ArgumentParser()
+parser.add_argument("--ssh_key", default="", 
+                    help="Student ssh key, that will be used for log in")
+parser.add_argument("--lesson", default="", 
+                    help="The number of lesson")
+parser.add_argument("--email", default="", 
+                    help="Student email")
+args = parser.parse_args()
+
+session_id = time.time()
+session = Session(session_id, args.email, key=args.ssh_key, lesson=args.lesson)
+
+session.start_session()
