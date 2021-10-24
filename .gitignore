@@ -3,3 +3,4 @@ lease_control/scripts/gecodriver.log
 lease_control/scripts/__pycache__
 bag_recorder/scripts/try.py
 .vscode/settings.json
+lease_control/src/lease_control/__pycache__
