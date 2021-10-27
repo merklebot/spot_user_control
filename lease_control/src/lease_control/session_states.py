@@ -3,8 +3,8 @@
 from transitions import Machine
 import shelve
 from pydantic import BaseModel
-from user_control import UserControl
-from blockchain import DataLogger, create_substrate_interface
+from lease_control.user_control import UserControl
+from lease_control.blockchain import DataLogger, create_substrate_interface
 import os
 
 SUBSTRATE_MNEMONIC = os.environ["MNEMONIC"]
@@ -18,6 +18,8 @@ class SessioData(BaseModel):
 class Session:
     def __init__(self, session_id, user_email=None, key=None, lesson=None):
         self.session_id = str(session_id)
+        self.extrinsic_hash = ""
+        self.ipfs_hash = ""
         self.user_email = user_email
         self.key = key
         self.lesson = lesson
@@ -52,6 +54,8 @@ class Session:
         """
         with shelve.open(self.session_data_path) as db:
             if self.session_id in db:
+                self.ipfs_hash = db[self.session_id].ipfs_hash
+                self.extrinsic_hash = db[self.session_id].extrinsic_hash
                 return db[self.session_id].state
             else:
                 db[self.session_id] = self.session_data
@@ -99,12 +103,11 @@ class Session:
         print(f"Send to IPFS: {self.state}")
         user = "student"
         self.uc.compress_files(f"/home/spot/{user}/")
-        ipfs_hash = self.uc.pin_to_ipfs(f"/home/spot/{user}/")
+        self.ipfs_hash = self.uc.pin_to_ipfs(f"/home/spot/{user}/")
         ### Save hash to database
-        ipfs_hash = "hello"
         with shelve.open(self.session_data_path) as db:
             data = db[self.session_id]
-            data.ipfs_hash = ipfs_hash
+            data.ipfs_hash = self.ipfs_hash
             db[self.session_id] = data
 
     def send_datalog(self):
@@ -114,21 +117,22 @@ class Session:
         Write extrinsic hash to database
         """
         print(f"Send datalog: {self.state}")
-        with shelve.open(self.session_data_path) as db:
-            ipfs_hash = db[self.session_id].ipfs_hash
+        if self.ipfs_hash == "":
+            with shelve.open(self.session_data_path) as db:
+                self.ipfs_hash = db[self.session_id].ipfs_hash
 
         substrate_interface = create_substrate_interface(SUBSTRATE_URL)
         datalogger = DataLogger(SUBSTRATE_MNEMONIC, substrate_interface)
-        extrinsic_hash = datalogger.write(ipfs_hash)
+        self.extrinsic_hash = datalogger.write(self.ipfs_hash)
 
         ### Save extrinsic hash to database
-        e_hash = "help"
         with shelve.open(self.session_data_path) as db:
             data = db[self.session_id]
-            data.extrinsic_hash = e_hash
+            data.extrinsic_hash = self.extrinsic_hash
             db[self.session_id] = data
 
-        print(f"DataLog Extrinsic Hash: {extrinsic_hash}")
+        print(f"DataLog Extrinsic Hash: {self.extrinsic_hash}")
+
 
 
 

@@ -7,15 +7,16 @@ import time
 # rosrun lease_control create_user  "{'key': [''], 'lesson': '', 'e-mail': ['']}"
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--ssh_key", default="", 
+parser.add_argument("--session-id", type=int, 
+                    help="Unic ID for the session")
+parser.add_argument("--ssh-keys", nargs='+', 
                     help="Student ssh key, that will be used for log in")
 parser.add_argument("--lesson", default="", 
                     help="The number of lesson")
-parser.add_argument("--email", default="", 
+parser.add_argument("--emails", nargs='+', 
                     help="Student email")
 args = parser.parse_args()
 
-session_id = time.time()
-session = Session(session_id, args.email, key=args.ssh_key, lesson=args.lesson)
+session = Session(args.session_id, args.emails, key=args.ssh_keys, lesson=args.lesson)
 
 session.start_session()

@@ -9,11 +9,12 @@ import argparse
 from lease_control.session_states import Session
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--session_id", default="", 
+parser.add_argument("--session-id", default="", 
                     help="ID of required session")
 args = parser.parse_args()
 
 session = Session(args.session_id)
 while session.state != "finished":
     session.next_state()
+print(f"IPFS hash: {session.ipfs_hash}, extrinsic hash: {session.extrinsic_hash}")
 

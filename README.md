@@ -32,12 +32,14 @@ roslaunch lease_control control.launch
 Run `create_user` script in `lease_control` package to create new user with your ssh public key:
 
 ```console
-source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash
-rosrun lease_control create_user "{'key': ['<ssh_pub_key>'], 'lesson': '<lesson_number>', 'e-mail': ['<student_mail>']}"
-[INFO] [1629206948.738579, 0.000000]: user_control ready
+source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash && source /root/.env
+rosrun lease_control create_user create_user --session-id 33 --ssh-keys <ssh_key1> <ssh_key2> --lesson <lesson_number> --emails <email1> <email2>
+[INFO] [1635319684.741609]: user_control ready
+Create user: started
 Enter new UNIX password: Retype new UNIX password: passwd: password updated successfully
-[INFO] [1629206951.742306, 0.000000]: Created core user student
-[INFO] [1629206955.379461, 0.000000]: Created spot user student
+[INFO] [1635319687.765813]: Created core user student
+[INFO] [1635319691.882607]: Created spot user student
+State: started
 ```
 
 User and password to connect to Spot using SDK are in `credentials` file in the new user home directory.
@@ -45,12 +47,22 @@ User and password to connect to Spot using SDK are in `credentials` file in the 
 To delete user run `delete_user`:
 
 ```console
-source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash
-rosrun lease_control delete user
-[INFO] [1629207104.224429, 0.000000]: user_control ready
-[INFO] [1629207104.227672, 0.000000]: Deleted core user student_AQZ
-[INFO] [1629207109.343382, 0.000000]: Deleted spot user student_AQZ
-[INFO] [1629207117.359424, 0.000000]: /home/spot/student_AQZ/file1 compressed
-[INFO] [1629207117.366699, 0.000000]: /home/spot/student_AQZ/file2 compressed
-[INFO] [1629207118.198969, 0.000000]: Published to IPFS with hash: Qmd4TGSAxXpG5Q2U5sryTyRtjeSEYrHbXncfcQthtVnkQb
+source /opt/ros/melodic/setup.bash && source /home/spot/catkin_ws/devel/setup.bash && source /root/.env
+rosrun lease_control delete_user --session-id <session_id>
+[INFO] [1635319701.881664]: user_control ready
+Delete user: started
+[INFO] [1635319701.889975]: Deleted core user student
+[INFO] [1635319706.458831]: Deleted spot user student
+State: ipfs
+Send to IPFS: ipfs
+[INFO] [1635319706.469890]: /home/spot/student/metadata compressed
+[INFO] [1635319710.348172]: Published to IPFS with hash: QmWmD2jLa5eRhHTMkfTfJY2rrt6HFQ2XjvSoG29uV6ntLS
+State: blockchain
+Send datalog: blockchain
+[INFO] [1635319711.008685]: DataLogger instantiated
+[INFO] [1635319711.010844]: Sending to datalog: QmWmD2jLa5eRhHTMkfTfJY2rrt6HFQ2XjvSoG29uV6ntLS
+[INFO] [1635319738.042535]: Datalog created with extrinsic hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c69602e3b114
+DataLog Extrinsic Hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c69602e3b114
+State: finished
+IPFS hash: QmWmD2jLa5eRhHTMkfTfJY2rrt6HFQ2XjvSoG29uV6ntLS, extrinsic hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c69602e3b114
 ```

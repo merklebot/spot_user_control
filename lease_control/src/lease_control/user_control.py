@@ -10,6 +10,7 @@ from ast import literal_eval
 from datetime import datetime, timedelta
 import os
 import rospy
+import rospkg
 from std_msgs.msg import String
 from pinatapy import PinataPy
 import re
@@ -28,7 +29,8 @@ class UserControl:
         self.letters = [chr(i) for i in range(65, 91)]
         self.passw = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)] + [str(i) for i in range(10)]
         self.lease_time = timedelta(hours=1)
-        self.path = os.path.realpath(__file__)[:-24]
+        rospack = rospkg.RosPack()
+        self.path = rospack.get_path('lease_control')
         rospy.init_node(f"user_control", anonymous=True)
         self.lesson_pub = rospy.Publisher("/start_lesson", String, queue_size=10, latch=True)
         self.hostname = '192.168.50.3'
