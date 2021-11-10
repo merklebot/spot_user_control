@@ -66,3 +66,14 @@ DataLog Extrinsic Hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c6
 State: finished
 IPFS hash: QmWmD2jLa5eRhHTMkfTfJY2rrt6HFQ2XjvSoG29uV6ntLS, extrinsic hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c69602e3b114
 ```
+## Run sending to datalog
+Export variables with your Spot username and password and mnemonic seed from your Robonomics account:
+```bash
+export SPOT_USERNAME=<spot_username>
+export SPOT_PASSWORD=<spot_password>
+export ROBONOMICS_MNEMONIC_SEED=<mnemonic seed>
+```
+And run the script `logs2robonomics.py` in `bag_recorder/scripts`:
+```bash
+python3 logs2robonomics.py
+```
