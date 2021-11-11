@@ -37,6 +37,7 @@ class RobonomicsLogSender:
                         }
                     }
                 )
+        print("Connected")
 
     def write_datalog(self, data):
         self.connect()
@@ -47,7 +48,13 @@ class RobonomicsLogSender:
                 'record': data
             }
         )
-        extrinsic = self.substrate.create_signed_extrinsic(call=call, keypair=self.keypair)
+        with open('/home/spot/nonce', 'r') as f:
+            nonce = int(f.readlines()[0])
+        with open('/home/spot/nonce', 'w') as f:
+            n = nonce + 1
+            f.write(f"{n}")
+        print(f"nonce: {nonce}")
+        extrinsic = self.substrate.create_signed_extrinsic(call=call, keypair=self.keypair, nonce=nonce)
         receipt = self.substrate.submit_extrinsic(extrinsic, wait_for_inclusion=True)
         print(f"Datalog created with extrinsic hash: {receipt.extrinsic_hash}")
 

@@ -37,9 +37,15 @@ class DataLogger:
             call_function="record",
             call_params={"record": message},
         )
+        with open('/home/spot/nonce', 'r') as f:
+            nonce = int(f.readlines()[0])
+        with open('/home/spot/nonce', 'w') as f:
+            n = nonce + 1
+            f.write(f"{n}")
         extrinsic = self._substrate.create_signed_extrinsic(
             call=call,
-            keypair=self._keypair
+            keypair=self._keypair,
+            nonce=nonce
         )
         receipt = self._substrate.submit_extrinsic(extrinsic, wait_for_inclusion=True)
         rospy.loginfo(f"Datalog created with extrinsic hash: {receipt.extrinsic_hash}")

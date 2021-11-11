@@ -2,18 +2,13 @@
 
 from transitions import Machine
 import shelve
-from pydantic import BaseModel
+from lease_control.session_data import SessionData
 from lease_control.user_control import UserControl
 from lease_control.blockchain import DataLogger, create_substrate_interface
 import os
 
 SUBSTRATE_MNEMONIC = os.environ["MNEMONIC"]
 SUBSTRATE_URL = "wss://main.frontier.rpc.robonomics.network"
-
-class SessioData(BaseModel):
-    ipfs_hash: str
-    extrinsic_hash: str
-    state: str
 
 class Session:
     def __init__(self, session_id, user_email=None, key=None, lesson=None):
@@ -24,7 +19,7 @@ class Session:
         self.key = key
         self.lesson = lesson
         self.session_data_path = "/home/spot/session_data"
-        self.session_data = SessioData(ipfs_hash="", extrinsic_hash="", state="")
+        self.session_data = SessionData(ipfs_hash="", extrinsic_hash="", state="")
         self.uc = UserControl()
         states = [
             {"name": "before_start"},
@@ -132,8 +127,3 @@ class Session:
             db[self.session_id] = data
 
         print(f"DataLog Extrinsic Hash: {self.extrinsic_hash}")
-
-
-
-
-
