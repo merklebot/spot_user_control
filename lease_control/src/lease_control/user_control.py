@@ -79,7 +79,7 @@ class UserControl:
         browser.quit()
         with open(f"/home/{username}/credentials", "w") as f:
             f.write(f"Username: {username}\n")
-            f.write(f"Password: {password}")
+            f.write(f"Password: {password}\n")
         rospy.loginfo(f"Created spot user {username}")
 
     def add_user_core(self, username, password, keys, lesson, emails):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
