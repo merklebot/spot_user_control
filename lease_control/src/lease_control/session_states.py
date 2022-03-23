@@ -10,7 +10,7 @@ import os
 SUBSTRATE_MNEMONIC = os.environ["MNEMONIC"]
 
 class Session:
-    def __init__(self, session_id, user_email=None, key=None, lesson=None):
+    def __init__(self, session_id: int, user_email: str = None, key: str = None, lesson: int = None) -> None:
         self.session_id = str(session_id)
         self.extrinsic_hash = ""
         self.ipfs_hash = ""
@@ -55,7 +55,7 @@ class Session:
                 db[self.session_id] = self.session_data
                 return "before_start"
 
-    def change_state_in_database(self):
+    def change_state_in_database(self) -> None:
         """
         Write current state to database
         """
@@ -65,7 +65,7 @@ class Session:
             data.state = self.state
             db[self.session_id] = data
 
-    def create_user(self):
+    def create_user(self) -> None:
         """
         Create Spot and core users and allow moving
         """
@@ -79,7 +79,7 @@ class Session:
         self.uc.add_user_spot(user, passw)
         self.uc.estop_pub.publish("press allow")
 
-    def delete_user(self):
+    def delete_user(self) -> None:
         """
         Delete Spot and core users and forbid moving
         """
@@ -89,7 +89,7 @@ class Session:
         self.uc.delete_user_spot(user)
         self.uc.estop_pub.publish("press stop")
 
-    def send_to_ipfs(self):
+    def send_to_ipfs(self) -> None:
         """
         Compress logs and send them to IPFS
         Save hash to database
@@ -104,7 +104,7 @@ class Session:
             data.ipfs_hash = self.ipfs_hash
             db[self.session_id] = data
 
-    def send_datalog(self):
+    def send_datalog(self) -> None:
         """
         Read hash from database
         Send datalog with hash

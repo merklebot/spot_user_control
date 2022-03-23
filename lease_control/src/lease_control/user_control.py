@@ -13,13 +13,14 @@ from std_msgs.msg import String
 from pinatapy import PinataPy
 import lzma
 import stat
+import typing as tp
 from tenacity import retry, stop_after_attempt, wait_fixed
 
 def fail_pin_to_ipfs(retry_state):
-        rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
+    rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
 
 class UserControl:
-    def __init__(self):
+    def __init__(self) -> None:
         self.letters = [chr(i) for i in range(65, 91)]
         self.passw = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)] + [str(i) for i in range(10)]
         rospack = rospkg.RosPack()
@@ -35,13 +36,13 @@ class UserControl:
         self.pinata = PinataPy(pinata_pub, pinata_secret)
         rospy.loginfo("user_control ready")
     
-    def create_user_pass(self):
+    def create_user_pass(self) -> str:
         passw = ''
         for i in range(16):
             passw += self.passw[random.randint(0, len(self.passw) - 1)]
         return passw
 
-    def delete_user_spot(self, username):
+    def delete_user_spot(self, username: str) -> None:
         opts = FirefoxOptions()
         opts.add_argument("--headless")
         browser = webdriver.Firefox(firefox_options=opts, executable_path='/home/spot/geckodriver')
@@ -57,7 +58,7 @@ class UserControl:
         rospy.loginfo(f"Deleted spot user {username}")
 
     @retry(stop=stop_after_attempt(3))
-    def add_user_spot(self, username, password):
+    def add_user_spot(self, username: str, password: str) -> None:
         opts = FirefoxOptions()
         opts.add_argument("--headless")
         browser = webdriver.Firefox(firefox_options=opts, executable_path='/home/spot/geckodriver')
@@ -75,7 +76,7 @@ class UserControl:
             f.write(f"Password: {password}\n")
         rospy.loginfo(f"Created spot user {username}")
 
-    def add_user_core(self, username, password, keys, lesson, emails):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
+    def add_user_core(self, username: str, password: str, keys: tp.List[str], lesson: str, emails: tp.List[str]):    # metadata: {'key': [''], 'lesson': '', 'e-mail': ['']}
         command = f"{self.path}/scripts/create_user_ubuntu.sh {username} {password}"
         subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         time.sleep(3)
@@ -111,7 +112,7 @@ class UserControl:
                 os.chown(os.path.join(root, f), uid, uid)
         rospy.loginfo(f"Created core user {username}")
 
-    def delete_user_core(self, username):
+    def delete_user_core(self, username: str) -> None:
         files = os.listdir(f"/home/{username}/result")
         for file in files:
             shutil.copy2(f"/home/{username}/result/{file}", f"/home/spot/{username}/{file}")
@@ -119,7 +120,7 @@ class UserControl:
         subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         rospy.loginfo(f"Deleted core user {username}")
 
-    def compress_files(self, directory):
+    def compress_files(self, directory: str) -> None:
         files = os.listdir(directory)
         if directory[-1] != "/":
             directory += "/"
@@ -133,7 +134,7 @@ class UserControl:
             os.remove(f"{directory}{filename}")
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), retry_error_callback=fail_pin_to_ipfs)
-    def pin_to_ipfs(self, directory):
+    def pin_to_ipfs(self, directory: str) -> tp.Union[str, None]:
         time.sleep(3)
         try:
             res = self.pinata.pin_file_to_ipfs(directory)
@@ -144,7 +145,7 @@ class UserControl:
             rospy.loginfo(f"Can't pin files to IPFS with exception {e}. Retrying...")
             raise
     
-    def create_lessons_task(self, user):
+    def create_lessons_task(self, user: str) -> None:
         os.mkdir(f"/home/{user}/lessons")
         with open(f"/home/{user}/lessons/lesson2", "w") as f:
             less2_x = [round(random.uniform(-14, -8), 1) for i in range(3)]
