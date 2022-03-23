@@ -19,8 +19,6 @@ class BagRecorder():
         types = {'CameraInfo': CameraInfo, 'Image': Image, 'TFMessage': TFMessage, 'InteractiveMarkerUpdate': InteractiveMarkerUpdate}
         rospy.init_node(f"rosbag_recorder", anonymous=False)
         rospy.Subscriber("/start_lesson", String, self.start_lesson_callback)
-        config_path = rospy.get_param("~config")
-        print(config_path)
         username = rospy.get_param("~username")
         password = rospy.get_param("~password")
         hostname = rospy.get_param("~hostname")
