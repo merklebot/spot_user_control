@@ -62,6 +62,12 @@ RestartSec=60s
 WantedBy=multi-user.target
 ```
 
+And run the service:
+```bash 
+systemctl enable user_control.service
+systemctl start user_control.service
+```
+
 ## Use
 
 Everything in this section you should do as a `root` user.
