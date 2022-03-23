@@ -6,20 +6,14 @@ import time
 from selenium import webdriver
 from selenium.webdriver import FirefoxOptions
 import subprocess
-from ast import literal_eval
-from datetime import datetime, timedelta
 import os
 import rospy
 import rospkg
 from std_msgs.msg import String
 from pinatapy import PinataPy
-import re
 import lzma
-from ast import literal_eval
-from std_msgs.msg import String
 import stat
 from tenacity import retry, stop_after_attempt, wait_fixed
-import shutil
 
 def fail_pin_to_ipfs(retry_state):
         rospy.loginfo(f"Failed pin files to IPFS, retry_state: {retry_state}")
@@ -28,7 +22,6 @@ class UserControl:
     def __init__(self):
         self.letters = [chr(i) for i in range(65, 91)]
         self.passw = [chr(i) for i in range(65, 91)] + [chr(i) for i in range(97, 123)] + [str(i) for i in range(10)]
-        self.lease_time = timedelta(hours=1)
         rospack = rospkg.RosPack()
         self.path = rospack.get_path('lease_control')
         rospy.init_node(f"user_control", anonymous=True)

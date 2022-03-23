@@ -15,18 +15,64 @@ Clone repository to your ROS workspace:
 cd ~/catkin_ws/src
 git clone https://github.com/merklebot/spot_user_control.git
 ```
+Install python packages:
+```bash
+pip3 install -r spot_user_control/lease_control/requirements.txt
+```
 Build the workspace:
 ```bash
 cd ~/catkin_ws
-catkin_make
+catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so
 source devel/setup.bash
 ```
 
 ## Run
 
-Run `control.launch` file for recording logs and run e-stop (it is running on spot):
+Create `run.sh` script for running service (don't forget to change `<spot_username>` and `<spot_password>` with your username and password from Spot):
 ```bash
-roslaunch lease_control control.launch
+#!/usr/bin/env bash
+
+python3 /home/spot/catkin_ws/src/spot_user_control/lease_control/scripts/wait4spot.py
+sleep 2
+source /opt/ros/melodic/setup.bash
+cd /home/spot/catkin_ws
+catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so
+source /home/spot/catkin_ws/devel/setup.bash
+roslaunch lease_control control.launch username:=<spot_username> password:=<spot_password>
+```
+
+Then create systemd service file: 
+
+```bash
+sudo nano /etc/systemd/system/user_control.service
+```
+
+With the following:
+```
+[Unit]
+Description=Record rosbags and create/delete student users
+
+[Service]
+ExecStart=<path to your run.sh script>
+User=spot
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
+```
+
+## Use
+
+Everything in this section you should do as a `root` user.
+
+Create `.env` file with the following:
+```
+export MNEMONIC=<mnemonic seed from robonomics account>
+export SPOT_PASSWORD=
+export SPOT_USERNAME=
+export PINATA_PUBLIC=
+export PINATA_PRIVATE=
 ```
 
 Run `create_user` script in `lease_control` package to create new user with your ssh public key:
@@ -66,6 +112,7 @@ DataLog Extrinsic Hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c6
 State: finished
 IPFS hash: QmWmD2jLa5eRhHTMkfTfJY2rrt6HFQ2XjvSoG29uV6ntLS, extrinsic hash: 0xba28a4d20d0812e30b1d8703a78933b5c9c071943370a7a05490c69602e3b114
 ```
+
 ## Run sending datalog
 Export variables with your Spot username and password and mnemonic seed from your Robonomics account:
 ```bash

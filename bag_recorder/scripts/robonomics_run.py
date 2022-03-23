@@ -23,7 +23,7 @@ import math
 class RobonomicsRun:
     def __init__(self):
         self.substrate = SubstrateInterface(
-            url="ws://127.0.0.1:9944",
+            url="wss://main.frontier.rpc.robonomics.network",
             ss58_format=32,
             type_registry_preset="substrate-node-template",
             type_registry={

@@ -2,13 +2,12 @@
 
 from transitions import Machine
 import shelve
+import robonomicsinterface as RI
 from lease_control.session_data import SessionData
 from lease_control.user_control import UserControl
-from lease_control.blockchain import DataLogger, create_substrate_interface
 import os
 
 SUBSTRATE_MNEMONIC = os.environ["MNEMONIC"]
-SUBSTRATE_URL = "wss://main.frontier.rpc.robonomics.network"
 
 class Session:
     def __init__(self, session_id, user_email=None, key=None, lesson=None):
@@ -116,9 +115,8 @@ class Session:
             with shelve.open(self.session_data_path) as db:
                 self.ipfs_hash = db[self.session_id].ipfs_hash
 
-        substrate_interface = create_substrate_interface(SUBSTRATE_URL)
-        datalogger = DataLogger(SUBSTRATE_MNEMONIC, substrate_interface)
-        self.extrinsic_hash = datalogger.write(self.ipfs_hash)
+        interface = RI.RobonomicsInterface(seed=SUBSTRATE_MNEMONIC)
+        self.extrinsic_hash = interface.record_datalog(self.ipfs_hash)
 
         ### Save extrinsic hash to database
         with shelve.open(self.session_data_path) as db:
