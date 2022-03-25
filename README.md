@@ -8,7 +8,27 @@ Packages for manipulating with users and recording rosbag backup files for Spot.
 * [Spot SDK](https://github.com/boston-dynamics/spot-sdk/blob/master/docs/python/quickstart.md)
 * Clearpath [Spot ROS package](https://clearpathrobotics.com/assets/guides/melodic/spot-ros/ros_setup.html)
 
-## Installation 
+## Installation with bash script
+
+Download installation script:
+``bash
+wget https://raw.githubusercontent.com/merklebot/spot_user_control/main/install.sh
+```
+
+Change rights:
+```bash
+chmod +x install.sh
+```
+
+And run it with username and password from Spot:
+
+```bash
+sudo ./install.sh username password
+```
+
+## Manual Installation
+
+### Installation 
 
 Clone repository to your ROS workspace:
 ```bash
@@ -26,7 +46,7 @@ catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin
 source devel/setup.bash
 ```
 
-## Run
+### Run
 
 Create `run.sh` script for running service (don't forget to change `<spot_username>` and `<spot_password>` with your username and password from Spot):
 ```bash

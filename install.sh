@@ -43,6 +43,7 @@ cd $HOME/catkin_ws/src
 git clone https://github.com/clearpathrobotics/spot_ros.git
 git clone https://github.com/ros/geometry2 --branch 0.6.5
 git clone git@github.com:merklebot/spot_user_control.git
+python3 -m pip install --upgrade pip
 pip3 install -r $HOME/catkin_ws/src/spot_user_control/lease_control/requirements.txt
 
 cd ..
@@ -54,12 +55,12 @@ echo "Creating service..."
 cat << EOF > $HOME/run.sh
 #!/usr/bin/env bash
 
-python3 /home/spot/catkin_ws/src/spot_user_control/lease_control/scripts/wait4spot.py
+python3 $HOME/catkin_ws/src/spot_user_control/lease_control/scripts/wait4spot.py
 sleep 2
 source /opt/ros/melodic/setup.bash
-cd /home/spot/catkin_ws
+cd $HOME/catkin_ws
 catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so
-source /home/spot/catkin_ws/devel/setup.bash
+source $HOME/catkin_ws/devel/setup.bash
 roslaunch lease_control control.launch username:=$1 password:=$2
 EOF
 chmod +x $HOME/run.sh
