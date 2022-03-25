@@ -160,7 +160,6 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/user_control.py
   scripts/estop_control.py
   scripts/wait4spot.py
   scripts/mqtt2ros.py
