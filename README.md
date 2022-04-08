@@ -11,7 +11,7 @@ Packages for manipulating with users and recording rosbag backup files for Spot.
 ## Installation with bash script
 
 Download installation script:
-``bash
+```bash
 wget https://raw.githubusercontent.com/merklebot/spot_user_control/main/install.sh
 ```
 
