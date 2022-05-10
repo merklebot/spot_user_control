@@ -42,7 +42,7 @@ pip3 install cython empy
 cd $HOME/catkin_ws/src
 git clone https://github.com/clearpathrobotics/spot_ros.git
 git clone https://github.com/ros/geometry2 --branch 0.6.5
-git clone git@github.com:merklebot/spot_user_control.git
+git clone https://github.com/merklebot/spot_user_control.git
 python3 -m pip install --upgrade pip
 pip3 install -r $HOME/catkin_ws/src/spot_user_control/lease_control/requirements.txt
 
@@ -63,10 +63,10 @@ catkin_make --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin
 source $HOME/catkin_ws/devel/setup.bash
 roslaunch lease_control control.launch username:=$1 password:=$2
 EOF
+
 chmod +x $HOME/run.sh
 
-cat << EOF > /etc/systemd/system/user_control.service
-[Unit]
+echo "[Unit]
 Description=Record rosbags and create/delete student users
 
 [Service]
@@ -77,7 +77,7 @@ RestartSec=60s
 
 [Install]
 WantedBy=multi-user.target
-EOF
+" | sudo tee /etc/systemd/system/user_control.service
 
 systemctl enable user_control.service
 systemctl start user_control.service
