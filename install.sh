@@ -14,6 +14,20 @@ sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator 
 
 echo "ROS has installed"
 
+echo "Setup skel directory"
+
+mkdir /etc/skel/.ssh
+touch /etc/skel/.ssh/authorized_keys
+mkdir /etc/skel/result
+cp -r /home/spot/spot-sdk/ /etc/skel/spot-sdk
+
+echo "Downloading geckodriver..."
+
+wget -O geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
+tar -xvzf geckodriver.tar.gz
+mv geckodriver /home/spot/geckodriver
+rm geckodriver.tar.gz
+
 # Create workspace
 
 echo "Installing Rust..."
